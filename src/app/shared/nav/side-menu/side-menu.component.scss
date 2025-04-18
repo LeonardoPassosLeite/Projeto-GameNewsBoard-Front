@@ -1,0 +1,42 @@
+@import "../../../../shareds/colors.scss";
+$transition-speed: 0.3s;
+
+.main-menu {
+  width: 200px;
+  padding: 60px 0;
+  background-color: $void-black;
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    margin: 15px 0;
+  }
+
+  .menu-item {
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color $transition-speed ease;
+
+    mat-icon {
+      color: $pure-white;
+      margin-bottom: 10px;
+    }
+
+    span {
+      font-size: 12px;
+      color: $pure-white;
+      text-shadow: 0px 0px 10px $pure-white;
+    }
+  }
+}
+
+li:hover {
+  background-color: $mist-gray;
+  color: $pure-white;
+}

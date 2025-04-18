@@ -1,0 +1,38 @@
+@import "../../../../shareds/colors.scss";
+
+.news-item {
+  background-color: $dark-gray;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba($pure-black, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba($pure-black, 0.35);
+  }
+
+  .news-image {
+    width: 200px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
+    flex-shrink: 0;
+  }
+
+  .news-text {
+    flex: 1;
+    flex-direction: column;
+
+    .date {
+      color: rgba($pure-white, 0.5);
+      margin-left: auto;
+      white-space: nowrap;
+    }
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid rgba($pure-white, 0.1);
+  }
+}

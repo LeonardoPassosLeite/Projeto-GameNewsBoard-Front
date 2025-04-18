@@ -1,0 +1,26 @@
+<div class="container-overflow">
+  <app-game-news-featured [news]="news[0]"></app-game-news-featured>
+
+  <div class="platform-filter d-flex gap-10 justify-end mb-20">
+    <button
+      *ngFor="let platform of platforms"
+      (click)="loadGameNews(platform.value)"
+      class="platform-btn"
+      [ngClass]="{
+        selected: selectedPlatform === platform.value
+      }"
+      [class.xbox]="selectedPlatform === 'xbox' && platform.value === 'xbox'"
+      [class.playstation]="
+        selectedPlatform === 'ps5' && platform.value === 'ps5'
+      "
+      [class.steam]="selectedPlatform === 'pc' && platform.value === 'pc'"
+      [class.nintendo]="
+        selectedPlatform === 'nintendo' && platform.value === 'nintendo'
+      "
+    >
+      <fa-icon [icon]="platform.icon"></fa-icon>
+    </button>
+  </div>
+
+  <app-game-news-list [news]="news.slice(1)"></app-game-news-list>
+</div>

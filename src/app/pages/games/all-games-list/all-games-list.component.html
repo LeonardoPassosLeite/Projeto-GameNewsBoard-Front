@@ -1,0 +1,62 @@
+<!-- Loading -->
+<app-gamer-loading *ngIf="isLoading" />
+
+<!-- Filtros e mensagem -->
+<div class="filters-container">
+  <div class="search d-flex center">
+    <app-input class=""
+      [(value)]="searchTerm"
+      (valueChange)="onSearch($event)"
+      placeholder="Buscar jogo por nome..."
+    ></app-input>
+
+    <app-dropdown
+      [options]="platformOptions"
+      [(value)]="selectedPlatform"
+      (valueChange)="onPlatformChange($event)"
+      label="Plataforma"
+    ></app-dropdown>
+
+    <app-dropdown
+      [options]="years"
+      [(value)]="selectedYear"
+      (valueChange)="onYearChange($event)"
+      label="Ano"
+    ></app-dropdown>
+  </div>
+
+  <div *ngIf="!games.length && message" class="user-message">
+    {{ message }}
+  </div>
+
+  <!-- Grid de jogos -->
+  <div class="container-grid" *ngIf="!isLoading && games.length">
+    <div class="game-card" *ngFor="let game of games">
+      <div class="cover-container">
+        <img
+          *ngIf="game.coverImage"
+          [src]="game.coverImage.replace('t_thumb', 't_cover_big')"
+          alt="Capa do jogo"
+          class="cover"
+        />
+        <div class="rating" *ngIf="game.rating">
+          {{ game.rating | number : "1.0-0" }}
+        </div>
+      </div>
+      <div class="overlay">
+        <div class="date">{{ game.released }}</div>
+        <div class="title">{{ game.title }}</div>
+        <div class="platform">{{ game.platform }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pagination-wrapper" *ngIf="!isLoading && games.length">
+    <app-pagination
+      [page]="page"
+      [hasNext]="hasMoreGames"
+      (previous)="previousPage()"
+      (next)="nextPage()"
+    />
+  </div>
+</div>

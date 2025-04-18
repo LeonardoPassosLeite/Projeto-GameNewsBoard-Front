@@ -1,0 +1,84 @@
+$transition-speed: 0.3s;
+
+body {
+  margin: 0;
+  background-size: cover;
+  font-family: "Roboto", sans-serif;
+}
+
+.content {
+  background: url("../../assets/Background.png") no-repeat center center fixed;
+  background-size: cover;
+  flex-grow: 1;
+  padding: 20px;
+  box-shadow: inset 0px 0px 50px rgba($pure-black, 0.3);
+  border-radius: 10px;
+  margin: 1px;
+  transition: all $transition-speed ease;
+}
+
+.container-global {
+  height: 100vh;
+  font-family: "Roboto", sans-serif;
+}
+
+.container-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+  margin-top: 50px;
+  width: 100%;
+  max-width: 1700px;
+  max-height: 80vh;
+  margin-left: auto;
+  margin-right: auto;
+  background: linear-gradient(135deg, #1e1e1e2f, #0000002a);
+  border-radius: 1rem;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.container-overflow {
+  max-width: 90vh;
+  height: 90vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  font-family: "Orbitron", sans-serif;
+  color: $pure-white;
+  margin: 0 auto;
+  padding: 10px;
+  border-radius: 12px;
+}
+
+.center {
+  align-items: center;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.mb-10 {
+  margin-bottom: 10px;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mt-40 {
+  margin-top: 60px;
+}
+
+.gap-20 {
+  gap: 20px;
+}
+
+.space-between {
+  justify-content: space-between;
+}

@@ -1,0 +1,24 @@
+@use '@angular/material' as mat;
+@include mat.core();
+
+@import '../shareds/styles/global.scss';
+
+$Agendamento-theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$azure-palette,
+    tertiary: mat.$blue-palette,
+  ),
+  density: (
+    scale: 0,
+  )
+));
+
+:root {
+  @include mat.all-component-themes($Agendamento-theme);
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

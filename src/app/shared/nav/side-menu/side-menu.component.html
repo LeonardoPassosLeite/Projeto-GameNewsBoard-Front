@@ -1,0 +1,23 @@
+<div class="container-global d-flex">
+  <div class="main-menu">
+    <ul>
+      <li *ngFor="let item of menuItems" (click)="navigateTo(item)">
+        <div class="menu-item d-flex center" (click)="toggleSubmenu(item)">
+          <mat-icon *ngIf="item.icon">{{ item.icon }}</mat-icon>
+          <span>{{ item.label }}</span>
+        </div>
+
+        <ul *ngIf="item.submenu && selectedMenuTitle === item.label && submenuOpen">
+          <li *ngFor="let subItem of item.submenu" (click)="navigateTo(subItem)">
+            <div class="submenu-item d-flex center">
+              <span>{{ subItem.label }}</span>
+            </div>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+</div>
