@@ -10,6 +10,8 @@ import {
 } from '../constants/pagination.constants';
 import { environment } from '../../../environments/environments';
 import { ApiResponse } from '../models/commons/api-response.model';
+import { Platform } from '../enums/platform.enum';
+import { YearCategory } from '../enums/year-category.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -35,30 +37,49 @@ export class IgdbGameService {
       );
   }
 
-  searchGames(
-    name?: string,
-    platform?: number,
-    year?: number,
+  getGamesByPlatform(
     page: number = DEFAULT_PAGE,
-    pageSize: number = DEFAULT_PAGE_SIZE
+    pageSize: number = DEFAULT_PAGE_SIZE,
+    platforms: Platform,
+    searchTerm: string = ''
   ): Observable<ApiResponse<PaginatedResult<GameResponse>>> {
-    let params = new HttpParams().set('page', page).set('pageSize', pageSize);
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('pageSize', pageSize.toString());
 
-    if (name?.trim()) {
-      params = params.set('name', name);
-    }
+    if (platforms !== Platform.All)
+      params = params.set('platform', platforms.toString());
 
-    if (platform !== undefined && platform !== null) {
-      params = params.set('platform', platform.toString());
-    }
-
-    if (year !== undefined && year !== null) {
-      params = params.set('year', year.toString());
-    }
+    if (searchTerm) params = params.set('searchTerm', searchTerm);
 
     return this.http
       .get<ApiResponse<PaginatedResult<GameResponse>>>(
-        `${this.baseUrl}/search`,
+        `${this.baseUrl}/get-games-by-platform`,
+        { params }
+      )
+      .pipe(
+        catchError(this.errorHandler.handleWithThrow.bind(this.errorHandler))
+      );
+  }
+
+  getGamesByYearCategory(
+    page: number = DEFAULT_PAGE,
+    pageSize: number = DEFAULT_PAGE_SIZE,
+    yearCategory: YearCategory,
+    searchTerm: string = ''
+  ): Observable<ApiResponse<PaginatedResult<GameResponse>>> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('pageSize', pageSize.toString());
+
+    if (yearCategory !== YearCategory.All)
+      params = params.set('yearCategory', yearCategory.toString());
+
+    if (searchTerm) params = params.set('searchTerm', searchTerm);
+
+    return this.http
+      .get<ApiResponse<PaginatedResult<GameResponse>>>(
+        `${this.baseUrl}/get-games-by-year-category`,
         { params }
       )
       .pipe(

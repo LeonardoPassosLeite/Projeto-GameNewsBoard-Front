@@ -1,62 +1,61 @@
-<!-- Loading -->
 <app-gamer-loading *ngIf="isLoading" />
 
-<!-- Filtros e mensagem -->
-<div class="filters-container">
-  <div class="search d-flex center">
-    <app-input class=""
-      [(value)]="searchTerm"
-      (valueChange)="onSearch($event)"
-      placeholder="Buscar jogo por nome..."
-    ></app-input>
+<div class="search d-flex center end">
+  <app-input
+    [label]="'Buscar jogo'"
+    [placeholder]="'Digite o nome do jogo...'"
+    [value]="searchTerm"
+    (valueChange)="onSearchTermChanged($event)"
+  ></app-input>
 
-    <app-dropdown
-      [options]="platformOptions"
-      [(value)]="selectedPlatform"
-      (valueChange)="onPlatformChange($event)"
-      label="Plataforma"
-    ></app-dropdown>
+  <app-filter-menu
+    [selectedPlatform]="selectedPlatforms"
+    [selectedYearCategory]="selectedYearCategory"
+    [platformOptions]="platformOptions"
+    [yearCategoryOptions]="yearCategoryOptions"
+    (filterApplied)="onFilterMenuApplied($event)"
+  ></app-filter-menu>
+</div>
 
-    <app-dropdown
-      [options]="years"
-      [(value)]="selectedYear"
-      (valueChange)="onYearChange($event)"
-      label="Ano"
-    ></app-dropdown>
-  </div>
+<div *ngIf="!games.length && message" class="user-message text-center mt-20">
+  {{ message }}
+</div>
 
-  <div *ngIf="!games.length && message" class="user-message">
-    {{ message }}
-  </div>
-
-  <!-- Grid de jogos -->
-  <div class="container-grid" *ngIf="!isLoading && games.length">
-    <div class="game-card" *ngFor="let game of games">
-      <div class="cover-container">
-        <img
-          *ngIf="game.coverImage"
-          [src]="game.coverImage.replace('t_thumb', 't_cover_big')"
-          alt="Capa do jogo"
-          class="cover"
-        />
-        <div class="rating" *ngIf="game.rating">
-          {{ game.rating | number : "1.0-0" }}
-        </div>
-      </div>
-      <div class="overlay">
-        <div class="date">{{ game.released }}</div>
-        <div class="title">{{ game.title }}</div>
-        <div class="platform">{{ game.platform }}</div>
+<div class="container-grid" *ngIf="!isLoading && games.length">
+  <div class="game-card" *ngFor="let game of games">
+    <div class="cover-container">
+      <img
+        *ngIf="game.coverImage"
+        [src]="game.coverImage.replace('t_thumb', 't_cover_big')"
+        alt="Capa do jogo"
+        class="cover"
+      />
+      <div
+        class="rating fs-10 bold"
+        *ngIf="game.rating"
+        [ngClass]="{
+          green: game.rating >= 80,
+          yellow: game.rating >= 70 && game.rating < 80,
+          orange: game.rating >= 60 && game.rating < 70,
+          red: game.rating < 60
+        }"
+      >
+        {{ game.rating | number : "1.0-0" }}
       </div>
     </div>
+    <div class="overlay">
+      <div class="date fs-10">{{ getReleaseYear(game.released) }}</div>
+      <div class="title fs-14 bold">{{ game.title }}</div>
+      <div class="platform fs-12">{{ game.platform }}</div>
+    </div>
   </div>
+</div>
 
-  <div class="pagination-wrapper" *ngIf="!isLoading && games.length">
-    <app-pagination
-      [page]="page"
-      [hasNext]="hasMoreGames"
-      (previous)="previousPage()"
-      (next)="nextPage()"
-    />
-  </div>
+<div class="pagination-wrapper" *ngIf="!isLoading && games.length">
+  <app-pagination
+    [page]="page"
+    [hasNext]="hasMoreGames"
+    (previous)="previousPage()"
+    (next)="nextPage()"
+  />
 </div>

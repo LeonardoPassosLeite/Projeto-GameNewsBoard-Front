@@ -1,10 +1,11 @@
 <div class="form-wrapper d-flex">
-  <label class="mb-10 fs-14">{{ label }}</label>
+  <label class="mb-10 fs-14" *ngIf="label">{{ label }}</label>
   <input
-    type="text"
     [placeholder]="placeholder"
-    [(ngModel)]="value"
-    (ngModelChange)="valueChange.emit($event)"
-    class="input fs-14"
+    [value]="value"
+    [disabled]="isDisabled"
+    (input)="onInputChange($event)"
+    (blur)="onTouched()"
+    class="input"
   />
 </div>

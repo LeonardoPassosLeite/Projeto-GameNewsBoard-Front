@@ -55,6 +55,10 @@ body {
   align-items: center;
 }
 
+.end {
+  align-items: end;
+}
+
 .d-flex {
   display: flex;
 }
@@ -66,6 +70,13 @@ body {
 .mb-20 {
   margin-bottom: 20px;
 }
+.mt-5 {
+  margin-top: 5px;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
 
 .mt-20 {
   margin-top: 20px;
@@ -73,6 +84,14 @@ body {
 
 .mt-40 {
   margin-top: 60px;
+}
+
+.gap-5 {
+  gap: 5px;
+}
+
+.gap-10 {
+  gap: 10px;
 }
 
 .gap-20 {
