@@ -1,0 +1,40 @@
+<div class="auth-container">
+  <h1 class="title mb-20">🎮 Faça login</h1>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div *ngIf="errorMessage" class="error-message mb-20 bold">
+      {{ errorMessage }}
+    </div>
+
+    <div class="form-group">
+      <app-input
+        formControlName="username"
+        [label]="'Usuário'"
+        [placeholder]="'Digite seu nome de usuário'"
+      ></app-input>
+      <div class="input-error" *ngIf="form.get('username')?.touched && form.get('username')?.invalid">
+        Usuário é obrigatório e precisa ter ao menos 3 caracteres.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <app-input
+        formControlName="password"
+        [label]="'Senha'"
+        [placeholder]="'Digite sua senha'"
+        [type]="'password'"
+      ></app-input>
+
+      <div class="input-error" *ngIf="form.get('password')?.touched && form.get('password')?.invalid">
+        Senha é obrigatória.
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="form.invalid" class="auth-button fs-16 bold">Entrar</button>
+  </form>
+
+  <p class="auth-link">
+    Ainda não tem conta?
+    <a (click)="navigateToRegister()">Criar agora</a>
+  </p>
+</div>

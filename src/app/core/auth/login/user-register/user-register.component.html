@@ -1,0 +1,52 @@
+<div class="auth-container">
+  <h1 class="title mb-20 text-center">🕹️ Criar conta</h1>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div *ngIf="errorMessage" class="error-message mb-20 bold text-center">
+      {{ errorMessage }}
+    </div>
+
+    <div class="form-group">
+      <app-input
+        formControlName="username"
+        [label]="'Usuário'"
+        [placeholder]="'Digite seu nome de usuário'"
+      ></app-input>
+      <div
+        class="input-error"
+        *ngIf="form.get('username')?.touched && form.get('username')?.invalid"
+      >
+        Usuário é obrigatório e precisa ter ao menos 3 caracteres.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <app-input
+        formControlName="password"
+        [label]="'Senha'"
+        [placeholder]="'Digite sua senha'"
+        [type]="'password'"
+      ></app-input>
+
+      <div
+        class="input-error"
+        *ngIf="form.get('password')?.touched && form.get('password')?.invalid"
+      >
+        Senha é obrigatória e precisa ter ao menos 3 caracteres.
+      </div>
+    </div>
+
+    <button
+      type="submit"
+      [disabled]="form.invalid"
+      class="auth-button fs-16 bold"
+    >
+      Criar conta
+    </button>
+  </form>
+
+  <p class="auth-link">
+    Já tem uma conta?
+    <a (click)="navigateToLogin()">Entrar agora</a>
+  </p>
+</div>

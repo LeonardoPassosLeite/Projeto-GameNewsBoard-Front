@@ -22,3 +22,13 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+#toast-container {
+  position: fixed !important;
+  z-index: 99999 !important;
+}
+
+.toast {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}

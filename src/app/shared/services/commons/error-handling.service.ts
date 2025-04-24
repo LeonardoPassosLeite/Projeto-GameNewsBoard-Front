@@ -16,29 +16,27 @@ export class ErrorHandlingService {
       0: () => 'Erro de conexão com o servidor.',
       401: () => {
         this.router.navigate(['/login']);
-        return 'Sua sessão expirou. Faça login novamente.';
-      },
-      404: () => raw?.message || 'Recurso não encontrado.',
-      400: () =>
-        typeof raw === 'string'
+        return typeof raw === 'string'
           ? raw
-          : raw?.detail ||
-            raw?.message ||
-            err?.message ||
-            'Erro ao processar a requisição.',
-      500: () =>
-        raw?.detail ||
-        raw?.message ||
-        err?.message ||
-        'Erro interno no servidor.',
-      403: () => 'Você não tem permissão para acessar este recurso.',
+          : raw?.detail || raw?.message || err?.message || 'Sessão inválida ou expirada.';
+      },
+      403: () => typeof raw === 'string'
+        ? raw
+        : raw?.detail || raw?.message || 'Você não tem permissão para acessar este recurso.',
+      404: () => typeof raw === 'string'
+        ? raw
+        : raw?.detail || raw?.message || 'Recurso não encontrado.',
+      400: () => typeof raw === 'string'
+        ? raw
+        : raw?.detail || raw?.message || err?.message || 'Erro ao processar a requisição.',
+      500: () => typeof raw === 'string'
+        ? raw
+        : raw?.detail || raw?.message || err?.message || 'Erro interno no servidor.',
       502: () => 'Erro de gateway. O servidor está indisponível.',
-      503: () => 'Serviço temporariamente indisponível.',
+      503: () => 'Serviço temporariamente indisponível.'
     };
 
-    return (
-      messages[err.status]?.() || 'Algo deu errado. Por favor, tente novamente.'
-    );
+    return messages[err.status]?.() || 'Algo deu errado. Por favor, tente novamente.';
   }
 
   handleWithThrow(err: HttpErrorResponse) {

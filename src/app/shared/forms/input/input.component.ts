@@ -27,6 +27,7 @@ export class InputComponent implements ControlValueAccessor, OnInit {
   @Input() label: string = '';
   @Input() placeholder: string = '';
   @Input() value: string = '';
+  @Input() type: string = 'text';
   @Output() valueChange = new EventEmitter<string>();
 
   onChange = (_: any) => {};
