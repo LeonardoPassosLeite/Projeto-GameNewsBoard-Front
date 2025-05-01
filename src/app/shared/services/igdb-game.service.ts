@@ -2,27 +2,21 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError } from 'rxjs';
 import { PaginatedResult } from '../models/commons/paginated-result.model';
-import { GameResponse } from '../models/game.model';
 import { ErrorHandlingService } from './commons/error-handling.service';
-import {
-  DEFAULT_PAGE,
-  DEFAULT_PAGE_SIZE,
-} from '../constants/pagination.constants';
+import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from '../constants/pagination.constants';
 import { environment } from '../../../environments/environments';
 import { ApiResponse } from '../models/commons/api-response.model';
 import { Platform } from '../enums/platform.enum';
 import { YearCategory } from '../enums/year-category.enum';
+import { GameResponse } from '../models/game.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class IgdbGameService {
   private readonly baseUrl = `${environment.apiBaseUrl}/games`;
 
-  constructor(
-    private http: HttpClient,
-    private errorHandler: ErrorHandlingService
-  ) {}
+  constructor(private http: HttpClient, private errorHandler: ErrorHandlingService) {}
 
   getGames(
     page: number = DEFAULT_PAGE,
@@ -32,9 +26,7 @@ export class IgdbGameService {
 
     return this.http
       .get<ApiResponse<PaginatedResult<GameResponse>>>(this.baseUrl, { params })
-      .pipe(
-        catchError(this.errorHandler.handleWithThrow.bind(this.errorHandler))
-      );
+      .pipe(catchError(this.errorHandler.handleWithThrow.bind(this.errorHandler)));
   }
 
   getGamesByPlatform(
@@ -43,23 +35,15 @@ export class IgdbGameService {
     platforms: Platform,
     searchTerm: string = ''
   ): Observable<ApiResponse<PaginatedResult<GameResponse>>> {
-    let params = new HttpParams()
-      .set('page', page.toString())
-      .set('pageSize', pageSize.toString());
+    let params = new HttpParams().set('page', page.toString()).set('pageSize', pageSize.toString());
 
-    if (platforms !== Platform.All)
-      params = params.set('platform', platforms.toString());
+    if (platforms !== Platform.All) params = params.set('platform', platforms.toString());
 
     if (searchTerm) params = params.set('searchTerm', searchTerm);
 
     return this.http
-      .get<ApiResponse<PaginatedResult<GameResponse>>>(
-        `${this.baseUrl}/get-games-by-platform`,
-        { params }
-      )
-      .pipe(
-        catchError(this.errorHandler.handleWithThrow.bind(this.errorHandler))
-      );
+      .get<ApiResponse<PaginatedResult<GameResponse>>>(`${this.baseUrl}/get-games-by-platform`, { params })
+      .pipe(catchError(this.errorHandler.handleWithThrow.bind(this.errorHandler)));
   }
 
   getGamesByYearCategory(
@@ -68,22 +52,14 @@ export class IgdbGameService {
     yearCategory: YearCategory,
     searchTerm: string = ''
   ): Observable<ApiResponse<PaginatedResult<GameResponse>>> {
-    let params = new HttpParams()
-      .set('page', page.toString())
-      .set('pageSize', pageSize.toString());
+    let params = new HttpParams().set('page', page.toString()).set('pageSize', pageSize.toString());
 
-    if (yearCategory !== YearCategory.All)
-      params = params.set('yearCategory', yearCategory.toString());
+    if (yearCategory !== YearCategory.All) params = params.set('yearCategory', yearCategory.toString());
 
     if (searchTerm) params = params.set('searchTerm', searchTerm);
 
     return this.http
-      .get<ApiResponse<PaginatedResult<GameResponse>>>(
-        `${this.baseUrl}/get-games-by-year-category`,
-        { params }
-      )
-      .pipe(
-        catchError(this.errorHandler.handleWithThrow.bind(this.errorHandler))
-      );
+      .get<ApiResponse<PaginatedResult<GameResponse>>>(`${this.baseUrl}/get-games-by-year-category`, { params })
+      .pipe(catchError(this.errorHandler.handleWithThrow.bind(this.errorHandler)));
   }
 }

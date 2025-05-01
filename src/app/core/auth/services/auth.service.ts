@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable, catchError } from 'rxjs';
 import { environment } from '../../../../environments/environments';
 import { ApiResponse } from '../../../shared/models/commons/api-response.model';
+import { ErrorHandlingService } from '../../../shared/services/commons/error-handling.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,33 +11,23 @@ import { ApiResponse } from '../../../shared/models/commons/api-response.model';
 export class AuthService {
   private readonly baseUrl = `${environment.apiBaseUrl}/auth`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private errorHandler: ErrorHandlingService) {}
 
   register(data: { username: string; password: string }): Observable<ApiResponse<string>> {
-    return this.http.post<ApiResponse<string>>(`${this.baseUrl}/register`, data);
+    return this.http
+      .post<ApiResponse<string>>(`${this.baseUrl}/register`, data)
+      .pipe(catchError(this.errorHandler.handleWithThrow.bind(this.errorHandler)));
   }
 
   login(data: { username: string; password: string }): Observable<ApiResponse<string>> {
-    return this.http.post<ApiResponse<string>>(`${this.baseUrl}/login`, data);
+    return this.http
+      .post<ApiResponse<string>>(`${this.baseUrl}/login`, data)
+      .pipe(catchError(this.errorHandler.handleWithThrow.bind(this.errorHandler)));
   }
 
   logout(): Observable<ApiResponse<string>> {
-    return this.http.post<ApiResponse<string>>(`${this.baseUrl}/logout`, {});
-  }
-
-  getProfile(): Observable<{
-    authenticated: boolean;
-    username: string;
-    userId: string;
-  }> {
     return this.http
-      .get<
-        ApiResponse<{
-          authenticated: boolean;
-          username: string;
-          userId: string;
-        }>
-      >(`${this.baseUrl}/me`)
-      .pipe(map(res => res.data));
+      .post<ApiResponse<string>>(`${this.baseUrl}/logout`, {})
+      .pipe(catchError(this.errorHandler.handleWithThrow.bind(this.errorHandler)));
   }
 }

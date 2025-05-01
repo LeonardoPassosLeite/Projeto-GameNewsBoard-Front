@@ -15,14 +15,15 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(clonedRequest).pipe(
       catchError((error: HttpErrorResponse) => {
         const isAuthLogin = req.url.includes('/auth/login');
+        const isUserMeCheck = req.url.includes('/user/me');
 
-        // Se for erro no login, deixa passar pro componente tratar
-        if (isAuthLogin) return throwError(() => error);
+        if (isAuthLogin || isUserMeCheck) 
+          return throwError(() => error);
+        
 
-        // Sessão expirada (em qualquer outra rota)
         if (error.status === 401 || error.status === 403) {
-          this.toastr.error('Acesso negado, Usuário nao encontrado');
-          this.router.navigate(['/login']);
+          this.toastr.error('Sessão expirada. Faça login novamente.', 'Acesso negado');
+          setTimeout(() => this.router.navigate(['/login']), 1500);
         }
 
         if (error.status >= 500) {

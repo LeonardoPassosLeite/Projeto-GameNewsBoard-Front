@@ -1,0 +1,22 @@
+<div class="container-global-tier">
+  <div class="d-flex center space-between mb-20">
+    <h2 class="tier-title">Suas Tier Lists</h2>
+    <app-navigate-button
+      label="Criar nova tier"
+      [icon]="'fa fa-plus'"
+      (click)="goToCreateTier()"
+      className="create-button"
+    />
+  </div>
+
+  <div class="container-tier d-flex">
+    <div class="tier-card" *ngFor="let tier of userProfile?.tiers" (click)="goToTier(tier.id)">
+      <div class="tier-image" [style.backgroundImage]="'url(' + encodeUrl(tier.imageUrl) + ')'">
+        <div class="tier-info-overlay">
+          <h3 class="tier-name">{{ tier.title }}</h3>
+          <p class="tier-sub">Clique para ver o ranking</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

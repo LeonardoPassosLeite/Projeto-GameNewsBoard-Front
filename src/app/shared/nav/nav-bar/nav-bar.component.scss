@@ -1,0 +1,36 @@
+/* Estilização do container */
+.nav-container {
+    display: flex;
+    position: relative;
+    top: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Cada bloco de navbar */
+.nav-box {
+    background: linear-gradient(90deg, #0f0c29, #302b63, #24243e);
+    padding: 15px 25px;
+    border: 2px solid rgb(241, 241, 241);
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer; 
+
+    &:hover {
+        background-color: red;
+        transform: scale(1.1);
+    }
+
+    button {
+        min-width: 250px;
+        background: none;
+        border: none;
+        color: white;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: 0.3s ease-in-out;
+        cursor: pointer;
+        font-size: inherit;
+    }
+}

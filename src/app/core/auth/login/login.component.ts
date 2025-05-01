@@ -7,7 +7,8 @@ import { GenericModule } from '../../../../shareds/commons/GenericModule';
 import { AuthService } from '../services/auth.service';
 import { ErrorHandlingService } from '../../../shared/services/commons/error-handling.service';
 import { ToastrService } from 'ngx-toastr';
-import { timer } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
+import { UserService } from '../../../shared/services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -23,6 +24,7 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
+    private userService: UserService,
     private router: Router,
     private toastr: ToastrService,
     private errorHandler: ErrorHandlingService
@@ -35,20 +37,29 @@ export class LoginComponent {
 
   onSubmit(): void {
     if (this.form.invalid) return;
-  
+
     this.errorMessage = '';
-  
-    this.authService.login(this.form.value).subscribe({
-      next: (res) => {
-        this.toastr.success(res.message); 
-        setTimeout(() => {
+    const { username, password } = this.form.value;
+
+    this.authService.login({ username, password }).subscribe({
+      next: async res => {
+        this.toastr.success(res.message);
+
+        await new Promise(resolve => setTimeout(resolve, 200));
+        const user = await firstValueFrom(this.userService.getAuthenticatedUserSafe());
+
+        if (user?.username) {
           this.router.navigate(['/manage-games']);
-        }, 300);  
+        } else {
+          this.toastr.error('Não foi possível confirmar o login. Tente novamente.');
+          console.warn('[Login] /me retornou null após login');
+        }
       },
-      error: (err) => {
+      error: err => {
         const msg = this.errorHandler.handleHttpError(err);
-        this.toastr.error('Informe seus dados corretamente');
+        this.toastr.error(msg);
         this.errorMessage = msg;
+        console.error('[Login] Falha:', err);
       }
     });
   }

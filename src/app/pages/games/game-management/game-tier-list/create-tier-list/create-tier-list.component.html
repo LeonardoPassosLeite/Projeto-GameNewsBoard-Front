@@ -1,0 +1,37 @@
+<form [formGroup]="form" (ngSubmit)="submit()" class="create-tier-form">
+  <!-- Campo de título -->
+  <div class="form-group">
+    <app-input
+      formControlName="title"
+      [label]="'Título'"
+      [placeholder]="'Ex: Meus favoritos da franquia Zelda'"
+    ></app-input>
+  </div>
+
+  <!-- Campo de upload de imagem -->
+  <div class="form-group">
+    <label for="image" class="upload-label">Selecione uma imagem</label>
+    <input
+      type="file"
+      id="image"
+      class="upload-input"
+      (change)="onFileSelected($event)"
+      accept="image/png, image/jpeg, image/webp"
+    />
+
+    <!-- Pré-visualização -->
+    <div *ngIf="previewUrl" class="preview-container">
+      <img [src]="previewUrl" alt="Pré-visualização" class="preview-img" />
+    </div>
+
+    <!-- Feedback de upload -->
+    <div *ngIf="uploading" class="uploading-text">
+      <em>Enviando imagem...</em>
+    </div>
+  </div>
+
+  <!-- Botão -->
+  <button type="submit" [disabled]="form.invalid || uploading || !imageId" class="create-button">
+    Criar Tier
+  </button>
+</form>

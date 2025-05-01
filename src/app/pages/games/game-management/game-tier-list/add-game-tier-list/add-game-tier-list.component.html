@@ -1,0 +1,46 @@
+<div class="tier-list-container carousel-container">
+  <div class="carousel-section" *ngIf="!viewOnlyMode">
+    <app-game-carousel [connectedDropLists]="dropListIds"></app-game-carousel>
+  </div>
+
+  <div class="container-overflow scroll" [class.view-only]="viewOnlyMode">
+    <div class="tier-list-header d-flex space-between mb-10">
+      <h1 class="fs-24">{{ tierTitle }}</h1>
+      <button
+        class="view-toggle-btn"
+        (click)="toggleViewMode()"
+        title="{{ viewOnlyMode ? 'Editar' : 'Expandir' }}"
+      >
+        <fa-icon [icon]="viewOnlyMode ? faPenToSquare : faExpand" />
+      </button>
+    </div>
+
+    <div class="tier-row tier-{{ tier.label.toLowerCase() }}" *ngFor="let tier of tiers">
+      <div class="tier-label">{{ tier.label }}</div>
+
+      <div
+        class="tier-dropzone"
+        cdkDropList
+        cdkDropListSortingDisabled="true"
+        [id]="'tier-drop-' + tier.level"
+        [cdkDropListData]="tierGames[tier.level]"
+        [cdkDropListConnectedTo]="dropListIds"
+        (cdkDropListDropped)="onDrop($event, tier.level)"
+      >
+        <div
+          *ngFor="let game of tierGames[tier.level]"
+          class="game-in-tier"
+          cdkDrag
+          [cdkDragData]="game"
+        >
+          <img [src]="getFullCoverUrl(game.coverImage)" [alt]="game.title" />
+          <button class="remove-button" (click)="removeGame(game)">×</button>
+        </div>
+
+        <div *ngIf="tierGames[tier.level]?.length === 0" class="empty-dropzone">
+          <span> Arraste jogos para aqui</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

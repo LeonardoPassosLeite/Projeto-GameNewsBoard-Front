@@ -1,0 +1,54 @@
+<app-gamer-loading *ngIf="isLoading" />
+
+<app-game-search-filter (filtersChanged)="onFiltersChanged($event)"></app-game-search-filter>
+
+<div class="carousel-wrapper">
+  <button (click)="toggleScroll()" class="btn-toggle-scroll" title="Iniciar/Pausar">
+    <fa-icon [icon]="isPaused ? faPlay : faPause" />
+  </button>
+
+  <button *ngIf="isPaused" (click)="scrollLeft()" class="scroll-arrow left-arrow" title="Voltar">
+    <fa-icon [icon]="faChevronLeft" />
+  </button>
+
+  <button *ngIf="isPaused" (click)="scrollRight()" class="scroll-arrow right-arrow" title="Avançar">
+    <fa-icon [icon]="faChevronRight" />
+  </button>
+
+  <div
+    *ngIf="!isLoading"
+    #carouselContainer
+    class="carousel-container"
+    cdkDropList
+    [cdkDropListData]="filteredGames"
+    [cdkDropListConnectedTo]="connectedDropLists"
+    [cdkDropListSortingDisabled]="true"
+  >
+    <div
+      *ngFor="let game of filteredGames"
+      class="carousel-item"
+      cdkDrag
+      [cdkDragData]="game"
+      (cdkDragStarted)="onDragStarted(game)"
+    >
+      <img
+        *ngIf="game.coverImage"
+        [src]="getFullCoverUrl(game.coverImage)"
+        [alt]="game.title"
+        class="game-cover"
+      />
+
+      <ng-template cdkDragPreview>
+        <img
+          [src]="getFullCoverUrl(game.coverImage)"
+          [alt]="game.title"
+          class="carousel-drag-preview"
+        />
+      </ng-template>
+
+      <ng-template cdkDragPlaceholder>
+        <div class="game-placeholder"></div>
+      </ng-template>
+    </div>
+  </div>
+</div>

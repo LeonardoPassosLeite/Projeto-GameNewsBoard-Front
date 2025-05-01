@@ -1,0 +1,79 @@
+@import '../../../../../shareds/colors.scss';
+
+.container-global-tier {
+  max-width: 1700px;
+  height: 80vh;
+  margin: 0 auto;
+  padding: 2rem;
+  margin-top: 50px;
+  background: linear-gradient(135deg, #1e1e1e2f, #0000002a);
+  border-radius: 1rem;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  .tier-title {
+    font-size: 1.6rem;
+    color: $pure-white;
+    margin: 0;
+  }
+
+  .container-tier {
+    gap: 1rem;
+    padding: 0.8rem;
+    margin-left: auto;
+    margin-right: auto;
+    background: linear-gradient(135deg, #1e1e1e2f, #0000002a);
+    border-radius: 1rem;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    height: auto;
+    flex-wrap: wrap;
+
+    .tier-card {
+      background-color: $void-black;
+      border-radius: 12px;
+      overflow: hidden;
+      width: 400px;
+      height: 300px;
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
+      display: flex;
+      flex-direction: column;
+
+      &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 10px $pure-white;
+      }
+    }
+
+    .tier-image {
+      flex: 1;
+      background-size: contain;
+      background-position: top;
+      background-repeat: no-repeat;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .tier-info-overlay {
+      width: 100%;
+      background: $pure-black;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .tier-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin: 0;
+      color: $pure-white;
+    }
+
+    .tier-sub {
+      font-size: 0.8rem;
+      color: $neutral-gray;
+      margin-top: 4px;
+    }
+  }
+}

@@ -1,21 +1,6 @@
 <app-gamer-loading *ngIf="isLoading" />
 
-<div class="search d-flex center end">
-  <app-input
-    [label]="'Buscar jogo'"
-    [placeholder]="'Digite o nome do jogo...'"
-    [value]="searchTerm"
-    (valueChange)="onSearchTermChanged($event)"
-  ></app-input>
-
-  <app-filter-menu
-    [selectedPlatform]="selectedPlatforms"
-    [selectedYearCategory]="selectedYearCategory"
-    [platformOptions]="platformOptions"
-    [yearCategoryOptions]="yearCategoryOptions"
-    (filterApplied)="onFilterMenuApplied($event)"
-  ></app-filter-menu>
-</div>
+<app-game-search-filter (filtersChanged)="onFiltersChanged($event)"/>
 
 <div *ngIf="!games.length && message" class="user-message text-center mt-20">
   {{ message }}
@@ -40,7 +25,7 @@
           red: game.rating < 60
         }"
       >
-        {{ game.rating | number : "1.0-0" }}
+        {{ game.rating | number : '1.0-0' }}
       </div>
     </div>
     <div class="overlay">
@@ -52,10 +37,5 @@
 </div>
 
 <div class="pagination-wrapper" *ngIf="!isLoading && games.length">
-  <app-pagination
-    [page]="page"
-    [hasNext]="hasMoreGames"
-    (previous)="previousPage()"
-    (next)="nextPage()"
-  />
+  <app-pagination [page]="page" [hasNext]="hasMoreGames" (previous)="previousPage()" (next)="nextPage()" />
 </div>

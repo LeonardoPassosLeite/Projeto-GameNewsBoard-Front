@@ -12,6 +12,7 @@
         [label]="'Usuário'"
         [placeholder]="'Digite seu nome de usuário'"
       ></app-input>
+      
       <div class="input-error" *ngIf="form.get('username')?.touched && form.get('username')?.invalid">
         Usuário é obrigatório e precisa ter ao menos 3 caracteres.
       </div>

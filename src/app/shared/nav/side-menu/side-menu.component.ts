@@ -8,7 +8,7 @@ import { GenericModule } from '../../../../shareds/commons/GenericModule';
 @Component({
   selector: 'app-sidenav',
   standalone: true,
-  imports: [GenericModule, RouterModule, MatIconModule  ],
+  imports: [GenericModule, RouterModule, MatIconModule],
   templateUrl: './side-menu.component.html',
   styleUrl: './side-menu.component.scss'
 })
@@ -41,9 +41,11 @@ export class SideMenuComponent {
       return;
     }
 
-    if (item.route) {
-      this.router.navigate([item.route]);
-    }
+    if (item.route) this.router.navigate([item.route]);
+
+    this.submenuOpen = false;
+    this.selectedMenuTitle = null;
+    this.activeSubmenu = null;
   }
 
   toggleSubmenu(item: MenuItem): void {
