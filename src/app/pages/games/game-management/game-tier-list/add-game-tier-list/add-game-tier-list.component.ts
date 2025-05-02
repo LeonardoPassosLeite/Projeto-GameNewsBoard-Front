@@ -11,6 +11,7 @@ import { faExpand, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ToastrService } from 'ngx-toastr';
 import { ErrorHandlingService } from '../../../../../shared/services/commons/error-handling.service';
+import { TierListEntryRequest } from '../../../../../shared/models/tier-list-entry.model';
 
 @Component({
   selector: 'app-add-game-tier-list',
@@ -125,7 +126,12 @@ export class AddGameTierListComponent implements OnInit {
     this.tierGames[tierLevel].push(game);
     this.gameTierMapping[game.id] = tierLevel;
 
-    this.tierListService.addGameToTier(this.tierId!, game.id, tierLevel).subscribe({
+    const request: TierListEntryRequest = {
+      gameId: game.id,
+      tier: tierLevel
+    };
+
+    this.tierListService.setGameTier(this.tierId!, request).subscribe({
       next: () => {},
       error: (err) => {
         this.errorMessage = this.errorHandler.handleHttpError(err);
@@ -160,7 +166,12 @@ export class AddGameTierListComponent implements OnInit {
     this.tierGames[newTier].push(game);
     this.gameTierMapping[game.id] = newTier;
 
-    this.tierListService.updateGameTier(this.tierId!, game.id, newTier).subscribe({
+    const request: TierListEntryRequest = {
+      gameId: game.id,
+      tier: newTier
+    };
+
+    this.tierListService.setGameTier(this.tierId!, request).subscribe({
       next: () => {},
       error: (err) => {
         this.errorMessage = this.errorHandler.handleHttpError(err);

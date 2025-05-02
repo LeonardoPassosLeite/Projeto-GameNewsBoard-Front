@@ -10,7 +10,7 @@ import { GenericModule } from '../../../../shareds/commons/GenericModule';
   standalone: true,
   imports: [GenericModule, RouterModule, MatIconModule],
   templateUrl: './side-menu.component.html',
-  styleUrl: './side-menu.component.scss'
+  styleUrl: './side-menu.component.scss',
 })
 export class SideMenuComponent {
   submenuOpen = false;
@@ -26,10 +26,10 @@ export class SideMenuComponent {
       icon: 'gamepad',
       submenu: [
         { label: 'Todos os Jogos', route: '/all-games' },
-        { label: 'Gerenciar Jogos', route: '/manage-games' }
-      ]
+        { label: 'Gerenciar Jogos', route: '/manage-games' },
+      ],
     },
-    { label: 'Sair', icon: 'logout' }
+    { label: 'Sair', icon: 'logout' },
   ];
 
   navigateTo(item: MenuItem): void {
@@ -41,7 +41,9 @@ export class SideMenuComponent {
       return;
     }
 
-    if (item.route) this.router.navigate([item.route]);
+    if (item.route && this.router.url !== item.route) {
+      this.router.navigate([item.route]);
+    }
 
     this.submenuOpen = false;
     this.selectedMenuTitle = null;

@@ -10,8 +10,8 @@
   </div>
 
   <div class="container-tier d-flex">
-    <div class="tier-card" *ngFor="let tier of userProfile?.tiers" (click)="goToTier(tier.id)">
-      <div class="tier-image" [style.backgroundImage]="'url(' + encodeUrl(tier.imageUrl) + ')'">
+    <div class="tier-card" *ngFor="let tier of tierLists" (click)="goToTier(tier.id)">
+      <div class="tier-image" [style.backgroundImage]="'url(' + getImageUrl(tier.imageUrl) + ')'">
         <div class="tier-info-overlay">
           <h3 class="tier-name">{{ tier.title }}</h3>
           <p class="tier-sub">Clique para ver o ranking</p>

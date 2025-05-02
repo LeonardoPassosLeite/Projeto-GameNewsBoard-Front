@@ -1,16 +1,15 @@
-import { TierListEntry } from './tier-list-entry.mode';
+import { TierListEntry } from './tier-list-entry.model';
 
 export interface TierList {
   title: string;
-  entries: TierListEntry[];
+  imageUrl?: string;
 }
 
 export interface TierListResponse extends TierList {
   id: string;
-  imageUrl: string;
+  entries: TierListEntry[];
 }
 
 export interface TierListRequest extends TierList {
-  userId: string;
   imageId?: string;
 }

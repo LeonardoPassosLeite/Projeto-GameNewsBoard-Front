@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environments';
 import { ApiResponse } from '../models/commons/api-response.model';
 import { ErrorHandlingService } from './commons/error-handling.service';
 import { TierListRequest, TierListResponse } from '../models/tier-list.model';
+import { TierListEntryRequest } from '../models/tier-list-entry.model';
 
 @Injectable({ providedIn: 'root' })
 export class TierListService {
@@ -18,33 +19,13 @@ export class TierListService {
       .pipe(catchError(this.errorHandler.handleWithThrow.bind(this.errorHandler)));
   }
 
-  addGameToTier(tierListId: string, gameId: number, tier: number): Observable<void> {
-    const params = new HttpParams().set('gameId', gameId.toString()).set('tier', tier.toString());
-
-    return this.http
-      .post<ApiResponse<any>>(`${this.baseUrl}/${tierListId}/add-game`, {}, { params })
-      .pipe(
-        map((response) => {
-          if (!response.success) throw new Error('Erro ao adicionar jogo no tier.');
-        }),
-        catchError(this.errorHandler.handleWithThrow.bind(this.errorHandler))
-      );
-  }
-
-  updateGameTier(tierListId: string, gameId: number, tier: number): Observable<void> {
-    const params = new URLSearchParams({
-      gameId: gameId.toString(),
-      newTier: tier.toString(),
-    });
-
-    return this.http
-      .patch<ApiResponse<any>>(`${this.baseUrl}/${tierListId}/update-game?${params.toString()}`, {})
-      .pipe(
-        map((response) => {
-          if (!response.success) throw new Error('Erro ao atualizar o tier do jogo.');
-        }),
-        catchError(this.errorHandler.handleWithThrow.bind(this.errorHandler))
-      );
+  setGameTier(tierListId: string, request: TierListEntryRequest): Observable<void> {
+    return this.http.put<ApiResponse<any>>(`${this.baseUrl}/${tierListId}/entries`, request).pipe(
+      map((response) => {
+        if (!response.success) throw new Error('Erro ao definir tier do jogo.');
+      }),
+      catchError(this.errorHandler.handleWithThrow.bind(this.errorHandler))
+    );
   }
 
   removeGameFromTier(tierListId: string, gameId: number): Observable<void> {
@@ -84,6 +65,17 @@ export class TierListService {
     return this.http.get<ApiResponse<TierListResponse>>(`${this.baseUrl}/${tierId}`).pipe(
       map((response) => {
         if (!response.success || !response.data) throw new Error('Erro ao carregar tier.');
+
+        return response.data;
+      }),
+      catchError(this.errorHandler.handleWithThrow.bind(this.errorHandler))
+    );
+  }
+
+  getMyTierLists(): Observable<TierListResponse[]> {
+    return this.http.get<ApiResponse<TierListResponse[]>>(`${this.baseUrl}/me`).pipe(
+      map((response) => {
+        if (!response.success || !response.data) throw new Error('Erro ao carregar suas tiers.');
 
         return response.data;
       }),

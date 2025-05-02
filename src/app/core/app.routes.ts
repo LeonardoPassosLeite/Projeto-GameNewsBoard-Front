@@ -15,12 +15,12 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-    canActivate: [GuestGuard]
+    canActivate: [GuestGuard],
   },
   {
     path: 'register',
     component: UserRegisterComponent,
-    canActivate: [GuestGuard]
+    canActivate: [GuestGuard],
   },
   {
     path: '',
@@ -29,15 +29,15 @@ export const routes: Routes = [
       {
         path: '',
         redirectTo: 'news',
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
         path: 'news',
-        component: GameNewsComponent
+        component: GameNewsComponent,
       },
       {
         path: 'all-games',
-        component: AllGamesListComponent
+        component: AllGamesListComponent,
       },
       {
         path: 'nav-bar',
@@ -46,37 +46,44 @@ export const routes: Routes = [
           {
             path: '',
             pathMatch: 'full',
-            redirectTo: 'tier-list'
+            redirectTo: 'tier-list',
           },
           {
             path: 'tier-list',
             loadComponent: () =>
               import('../pages/games/game-management/game-tier-list/game-tier-list.component').then(
-                m => m.GameTierListComponent
-              )
+                (m) => m.GameTierListComponent
+              ),
           },
           {
             path: 'status-list',
             loadComponent: () =>
-              import('../pages/games/game-management/game-status-list/game-status-list.component').then(
-                m => m.GameStatusListComponent
-              )
-          }
-        ]
+              import(
+                '../pages/games/game-management/game-status-list/game-status-list.component'
+              ).then((m) => m.GameStatusListComponent),
+          },
+        ],
       },
       {
         path: 'manage-games/tier-list/create-tier-list',
-        component: CreateTierListComponent
+        component: CreateTierListComponent,
       },
       {
         path: 'manage-games/tier-list/add-game-tier-list/:tierId',
-        component: AddGameTierListComponent
+        component: AddGameTierListComponent,
       },
       {
         path: 'manage-games',
         component: GameManagementComponent,
-        canActivate: [AuthGuard]
-      }
-    ]
-  }
+        canActivate: [AuthGuard],
+        children: [
+          {
+            path: '',
+            redirectTo: '/nav-bar/tier-list',
+            pathMatch: 'full',
+          },
+        ],
+      },
+    ],
+  },
 ];

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-
 import { map, catchError } from 'rxjs/operators';
 import { environment } from '../../../environments/environments';
 import { ErrorHandlingService } from './commons/error-handling.service';
@@ -29,13 +28,13 @@ export class UserService {
     );
   }  
   
-  getUserProfile(): Observable<UserProfileResponse> {
-    return this.http.get<ApiResponse<UserProfileResponse>>(`${this.baseUrl}/profile`).pipe(
-      map(response => response.data),
-      catchError(err => {
-        const errorMsg = this.errorHandler.handleHttpError(err);
-        throw new Error(errorMsg);
-      })
-    );
-  }
+  // getUserProfile(): Observable<UserProfileResponse> {
+  //   return this.http.get<ApiResponse<UserProfileResponse>>(`${this.baseUrl}/profile`).pipe(
+  //     map(response => response.data),
+  //     catchError(err => {
+  //       const errorMsg = this.errorHandler.handleHttpError(err);
+  //       throw new Error(errorMsg);
+  //     })
+  //   );
+  // }
 }

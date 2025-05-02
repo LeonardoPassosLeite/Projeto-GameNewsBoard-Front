@@ -1,5 +1,11 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { TierListService } from '../../../../../shared/services/tier-list-service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
@@ -13,7 +19,7 @@ import { InputComponent } from '../../../../../shared/forms/input/input.componen
   standalone: true,
   imports: [GenericModule, ReactiveFormsModule, FormsModule, InputComponent],
   templateUrl: './create-tier-list.component.html',
-  styleUrls: ['./create-tier-list.component.scss']
+  styleUrls: ['./create-tier-list.component.scss'],
 })
 export class CreateTierListComponent implements OnInit {
   @Output() created = new EventEmitter<void>();
@@ -34,7 +40,7 @@ export class CreateTierListComponent implements OnInit {
     private location: Location
   ) {
     this.form = this.fb.group({
-      title: ['', Validators.required]
+      title: ['', Validators.required],
     });
   }
 
@@ -54,7 +60,7 @@ export class CreateTierListComponent implements OnInit {
 
       this.uploading = true;
       this.tierListService.uploadImage(this.selectedFile).subscribe({
-        next: res => {
+        next: (res) => {
           if (res?.imageUrl && res?.imageId) {
             this.imageUrl = res.imageUrl;
             this.imageId = res.imageId;
@@ -64,34 +70,32 @@ export class CreateTierListComponent implements OnInit {
           }
           this.uploading = false;
         },
-        error: err => {
+        error: (err) => {
           console.error('Erro ao enviar imagem:', err);
           this.toastr.error('Erro ao enviar imagem. Tente novamente.');
           this.previewUrl = null;
           this.imageUrl = null;
           this.imageId = null;
           this.uploading = false;
-        }
+        },
       });
-      
     }
   }
 
   submit(): void {
-    if (this.form.invalid || !this.userId || this.uploading || (!this.imageUrl && !this.imageId)) {
+    if (this.form.invalid || this.uploading || !this.imageId) {
       this.toastr.warning('Formulário incompleto ou upload em andamento.');
       return;
     }
 
     const payload: TierListRequest = {
-      ...this.form.value,
-      userId: this.userId,
-      imageUrl: this.imageUrl,
-      imageId: this.imageId
+      title: this.form.value.title,
+      imageUrl: this.imageUrl ?? undefined,
+      imageId: this.imageId ?? undefined,
     };
 
     this.tierListService.createTierList(payload).subscribe({
-      next: res => {
+      next: (res) => {
         this.toastr.success(res.message);
         this.created.emit();
         this.form.reset();
@@ -100,10 +104,10 @@ export class CreateTierListComponent implements OnInit {
         this.imageUrl = null;
         this.imageId = null;
       },
-      error: err => {
+      error: (err) => {
         console.error('[CreateTierComponent] Erro ao criar tier:', err);
         this.toastr.error(err.message);
-      }
+      },
     });
   }
 }
