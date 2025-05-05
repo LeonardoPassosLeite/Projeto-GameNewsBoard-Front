@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MenuItem } from '../../models/commons/menu-item.model';
@@ -14,10 +14,29 @@ import { GenericModule } from '../../../../shareds/commons/GenericModule';
 })
 export class SideMenuComponent {
   submenuOpen = false;
+  menuExpanded = true; 
   selectedMenuTitle: string | null = null;
   activeSubmenu: MenuItem[] | null = null;
+  isSmallScreen: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {
+    this.detectScreenSize(); // Chama a função para detectar a tela inicial
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.detectScreenSize();
+  }
+
+  // side-menu.component.ts
+  detectScreenSize(): void {
+    this.isSmallScreen = window.innerWidth < 600;
+    if (this.isSmallScreen) {
+      this.menuExpanded = false;
+    } else {
+      this.menuExpanded = true;
+    }
+  }
 
   menuItems: MenuItem[] = [
     { label: 'Noticias', icon: 'article', route: '/news' },
@@ -51,21 +70,28 @@ export class SideMenuComponent {
   }
 
   toggleSubmenu(item: MenuItem): void {
-    if (item.submenu && item.submenu.length > 0) {
-      if (this.selectedMenuTitle === item.label && this.submenuOpen) {
-        this.submenuOpen = false;
-        this.selectedMenuTitle = null;
-        this.activeSubmenu = null;
+    if (item.submenu) {
+      // Se o menu está recolhido, primeiro expande o menu
+      if (!this.menuExpanded && !this.isSmallScreen) {
+        this.menuExpanded = true;
+        // Usamos setTimeout para garantir que o menu está expandido antes de abrir o submenu
+        setTimeout(() => {
+          this.selectedMenuTitle = item.label;
+        }, 300); // Tempo da animação de expansão
       } else {
-        this.submenuOpen = true;
-        this.selectedMenuTitle = item.label;
-        this.activeSubmenu = item.submenu;
+        // Comportamento normal quando o menu já está expandido
+        if (this.selectedMenuTitle === item.label) {
+          this.selectedMenuTitle = null;
+        } else {
+          this.selectedMenuTitle = item.label;
+        }
       }
     } else {
       this.navigateTo(item);
-      this.submenuOpen = false;
-      this.selectedMenuTitle = null;
-      this.activeSubmenu = null;
     }
+  }
+
+  toggleMenu(): void {
+    this.menuExpanded = !this.menuExpanded; // Alterna o estado do menu
   }
 }

@@ -1,4 +1,4 @@
-@import "../../../../shareds/colors.scss";
+@import '../../../../shareds/colors.scss';
 
 .news-item {
   background-color: $dark-gray;
@@ -12,12 +12,17 @@
     box-shadow: 0 6px 20px rgba($pure-black, 0.35);
   }
 
+  .d-flex {
+    display: flex;
+  }
+
   .news-image {
     width: 200px;
     height: 120px;
     object-fit: cover;
     border-radius: 10px;
     flex-shrink: 0;
+    margin-right: 20px; // Adiciona um espaço entre a imagem e o texto
   }
 
   .news-text {
@@ -34,5 +39,52 @@
   hr {
     border: none;
     border-top: 1px solid rgba($pure-white, 0.1);
+  }
+
+  // Responsividade para mobile (telas pequenas)
+  @media (max-width: 768px) {
+    // Tablet e mobile
+    .d-flex {
+      flex-direction: column; // Altera a direção para coluna em telas pequenas
+    }
+
+    .news-image {
+      width: 100%; // 
+      height: auto; // Mantém a proporção da imagem
+      margin-bottom: 10px; // Adiciona um espaçamento entre a imagem e o texto
+    }
+
+    .news-text {
+      padding: 10px;
+    }
+
+    .news-card {
+      padding: 15px;
+    }
+  }
+
+  @media (max-width: 523px) {
+    .news-image {
+      width: 100%;  
+      height: 180px;
+      margin-bottom: 0;  
+    }
+
+    h2 {
+      font-size: 14px;
+    }
+    
+    .news-text {
+      font-size: 12px;
+    }
+
+    .date {
+      margin-top: 10px;
+      font-size: 12px;
+    }
+
+    .news-item {
+      padding: 100px;  
+    }
   }
 }

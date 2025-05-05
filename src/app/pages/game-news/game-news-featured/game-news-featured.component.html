@@ -1,5 +1,7 @@
 <div class="featured-news mb-20" *ngIf="news">
-  <img [src]="news.imageUrl" alt="Imagem destacada" class="featured-image" />
+  <div class="featured-image-wrapper">
+    <img [src]="news.imageUrl" alt="Imagem destacada" class="featured-image" />
+  </div>
   <div class="featured-content">
     <h1 class="fs-24 bold">{{ news.title }}</h1>
     <p class="fs-14 mt-20">{{ news.description }}</p>

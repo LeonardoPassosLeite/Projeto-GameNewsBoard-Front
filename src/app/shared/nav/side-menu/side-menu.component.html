@@ -1,28 +1,73 @@
 <div class="container-global">
-  <div class="main-menu">
-    <ul>
-      <li *ngFor="let item of menuItems" class="menu-group">
-        <div class="menu-item d-flex center" (click)="toggleSubmenu(item)">
-          <mat-icon *ngIf="item.icon">{{ item.icon }}</mat-icon>
-          <span>{{ item.label }}</span>
+  <!-- Botão mobile (hamburger) - só aparece em telas pequenas -->
+  <button class="mobile-menu-toggle" (click)="toggleMenu()" *ngIf="isSmallScreen">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <!-- Side Menu -->
+  <div
+    class="side-menu"
+    [class.menu-open]="menuExpanded"
+    [class.collapsed]="!menuExpanded && !isSmallScreen"
+  >
+    <!-- Botão de toggle (seta) posicionado corretamente -->
+    <button class="menu-toggle" (click)="toggleMenu()" *ngIf="!isSmallScreen">
+      <mat-icon>{{ menuExpanded ? 'chevron_left' : 'chevron_right' }}</mat-icon>
+    </button>
+
+    <div class="menu-header" *ngIf="menuExpanded">
+      <h2>IGN Brasil</h2>
+      <button class="close-btn" (click)="toggleMenu()" *ngIf="isSmallScreen">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <ul class="menu-list">
+      <li
+        *ngFor="let item of menuItems"
+        class="menu-item"
+        [class.open]="selectedMenuTitle === item.label"
+      >
+        <div
+          class="main-item"
+          (click)="toggleSubmenu(item)"
+          [title]="!menuExpanded ? item.label : ''"
+        >
+          <mat-icon>{{ item.icon }}</mat-icon>
+          <span *ngIf="menuExpanded">{{ item.label }}</span>
+          <mat-icon class="arrow" *ngIf="item.submenu">
+            {{ selectedMenuTitle === item.label ? 'expand_less' : 'expand_more' }}
+          </mat-icon>
         </div>
 
-        <div
-          class="submenu-container"
-          *ngIf="item.submenu && selectedMenuTitle === item.label && submenuOpen"
+        <ul
+          class="submenu"
+          *ngIf="
+            item.submenu && selectedMenuTitle === item.label && (menuExpanded || isSmallScreen)
+          "
         >
-          <ul>
-            <li *ngFor="let subItem of item.submenu" (click)="navigateTo(subItem)">
-              <div class="submenu-item d-flex center">
-                <span>{{ subItem.label }}</span>
-              </div>
-            </li>
-          </ul>
-        </div>
+          <li *ngFor="let subItem of item.submenu" (click)="navigateTo(subItem)">
+            {{ subItem.label }}
+          </li>
+        </ul>
       </li>
     </ul>
+
+    <div class="menu-footer" *ngIf="menuExpanded">
+      <h3>Change Region</h3>
+      <div class="auth-buttons">
+        <button class="auth-btn">Entrar</button>
+        <button class="auth-btn">Registrar</button>
+      </div>
+    </div>
   </div>
-  <div class="content">
+
+  <!-- Conteúdo principal -->
+  <div
+    class="content"
+    [class.menu-pushed]="menuExpanded && isSmallScreen"
+    [class.menu-collapsed]="!menuExpanded && !isSmallScreen"
+  >
     <router-outlet></router-outlet>
   </div>
 </div>

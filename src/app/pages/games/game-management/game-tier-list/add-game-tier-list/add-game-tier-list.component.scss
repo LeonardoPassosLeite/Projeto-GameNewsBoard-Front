@@ -61,7 +61,7 @@
   // Ajustes por resolução
   @media (min-width: 2560px) {
     .container-overflow {
-      width: 53.1%; // Quad HD
+      width: 52.5%; // Quad HD
     }
   }
 
@@ -78,6 +78,10 @@
   @media (orientation: portrait) {
     .container-overflow {
       width: 60.8%;
+
+      .tier-row {
+        min-height: 10.2vh;
+      }
     }
 
     .game-icon {
@@ -122,6 +126,15 @@
   .game-icon {
     width: 80px;
     height: 110px;
+  }
+}
+
+@media (max-width: 500px) {
+  .tier-list-container {
+    .game-icon {
+      width: 80px;
+      height: 110px;
+    }
   }
 }
 

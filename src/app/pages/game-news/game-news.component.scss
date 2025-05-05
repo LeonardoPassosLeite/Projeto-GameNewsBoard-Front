@@ -1,12 +1,16 @@
-@import "../../../shareds/colors.scss";
+@import '../../../shareds/colors.scss';
 
 .container-overflow {
   background-color: $light-gray;
   padding: 30px;
+  width: 40%;
+  margin-top: 20px;
 
   .platform-filter {
     justify-content: flex-end;
-  
+    flex-wrap: wrap;
+    gap: 10px;
+
     .platform-btn {
       background-color: transparent;
       border: 2px solid transparent;
@@ -16,36 +20,42 @@
       color: rgba($pure-white, 0.7);
       cursor: pointer;
       transition: all 0.2s ease;
-  
+
       &:hover {
         background-color: rgba($rare-deep-blue, 0.1);
         color: $rare-deep-blue;
       }
-  
+
       &.selected {
         color: $pure-white;
         box-shadow: 0 0 8px rgba($pure-white, 0.4);
-  
+
         &.xbox {
           background-color: $xbox-green;
           border-color: $xbox-green;
         }
-  
+
         &.playstation {
           background-color: $playstation-blue;
           border-color: $playstation-blue;
         }
-  
+
         &.steam {
           background-color: $steam-gray;
           border-color: $steam-gray;
         }
-  
+
         &.nintendo {
           background-color: $nintendo-red;
           border-color: $nintendo-red;
         }
       }
     }
+  }
+}
+
+@media (orientation: portrait) {
+  .container-overflow {
+    width: 90%;
   }
 }

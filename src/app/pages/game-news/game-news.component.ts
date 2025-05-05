@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GameNewsArticle } from '../../shared/models/games-news.model'; 
+import { GameNewsArticle } from '../../shared/models/games-news.model';
 import { GenericModule } from '../../../shareds/commons/GenericModule';
 import { GameNewsFeaturedComponent } from './game-news-featured/game-news-featured.component';
 import { GameNewsListComponent } from './game-news-list/game-news-list.component';
@@ -11,17 +11,12 @@ import { GameNewsService } from '../../shared/services/game-news.service';
 @Component({
   selector: 'app-game-news',
   standalone: true,
-  imports: [
-    GenericModule,
-    GameNewsFeaturedComponent,
-    GameNewsListComponent,
-    FontAwesomeModule
-  ],
+  imports: [GenericModule, GameNewsFeaturedComponent, GameNewsListComponent, FontAwesomeModule],
   templateUrl: './game-news.component.html',
   styleUrls: ['./game-news.component.scss'],
 })
 export class GameNewsComponent implements OnInit {
-  news: GameNewsArticle[] = []; 
+  news: GameNewsArticle[] = [];
 
   platforms = [
     { value: 'xbox', icon: faXbox },
@@ -34,6 +29,10 @@ export class GameNewsComponent implements OnInit {
 
   constructor(private gamesNewsService: GameNewsService) {}
 
+  get slicedNews(): GameNewsArticle[] {
+    return this.news?.slice(1) ?? [];
+  }
+
   ngOnInit(): void {
     this.loadGameNews(this.selectedPlatform);
   }
@@ -42,7 +41,11 @@ export class GameNewsComponent implements OnInit {
     this.selectedPlatform = platform;
     this.gamesNewsService.getNewsByPlatform(platform).subscribe({
       next: (response) => {
-        this.news = response.articles;
+        if (response.success) {
+          this.news = response.data.articles;
+        } else {
+          console.error('Erro ao carregar notícias:', response.message);
+        }
       },
       error: (err) => console.error('Erro ao buscar notícias', err),
     });
