@@ -18,8 +18,9 @@
   <div
     *ngIf="!isLoading"
     #carouselContainer
-    class="carousel-container"
+    class="carousel-container d-flex gap-5"
     cdkDropList
+    [id]="'carousel-drop-list'"
     [cdkDropListData]="filteredGames"
     [cdkDropListConnectedTo]="connectedDropLists"
     [cdkDropListSortingDisabled]="true"
@@ -39,15 +40,11 @@
       />
 
       <ng-template cdkDragPreview>
-        <img
-          [src]="getFullCoverUrl(game.coverImage)"
-          [alt]="game.title"
-          class="carousel-drag-preview"
-        />
+        <img [src]="getFullCoverUrl(game.coverImage)" [alt]="game.title" class="game-icon" />
       </ng-template>
 
       <ng-template cdkDragPlaceholder>
-        <div class="game-placeholder"></div>
+        <div class="drag-placeholder"></div>
       </ng-template>
     </div>
   </div>

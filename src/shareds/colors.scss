@@ -16,7 +16,7 @@ $void-black: #1b1b1b;
 $cloud-gray: #888;
 $mist-gray: #67686952;
 $dark-gray: #2c2c2c;
-$light-gray: #999 ;
+$light-gray: #999;
 $charcoal: #333;
 $void-black: #1f1f1f;
 $light-gray: rgb(59, 58, 58);
@@ -37,3 +37,13 @@ $orange-overlay: #ff5e0088;
 
 $success-green: #28a745;
 $success-green-dark: #218838;
+
+$tier-colors: (
+  sss: #ffa500,
+  ss: #e83e8c,
+  s: #6f42c1,
+  a: #007bff,
+  c: #28a745,
+  d: #6c757d,
+  f: #dc3545,
+);

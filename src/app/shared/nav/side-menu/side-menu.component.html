@@ -1,4 +1,4 @@
-<div class="container-global d-flex">
+<div class="container-global">
   <div class="main-menu">
     <ul>
       <li *ngFor="let item of menuItems" class="menu-group">
@@ -9,15 +9,10 @@
 
         <div
           class="submenu-container"
-          *ngIf="
-            item.submenu && selectedMenuTitle === item.label && submenuOpen
-          "
+          *ngIf="item.submenu && selectedMenuTitle === item.label && submenuOpen"
         >
           <ul>
-            <li
-              *ngFor="let subItem of item.submenu"
-              (click)="navigateTo(subItem)"
-            >
+            <li *ngFor="let subItem of item.submenu" (click)="navigateTo(subItem)">
               <div class="submenu-item d-flex center">
                 <span>{{ subItem.label }}</span>
               </div>

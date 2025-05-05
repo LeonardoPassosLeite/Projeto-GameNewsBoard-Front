@@ -1,16 +1,17 @@
+@import '../../../../shareds/colors.scss';
+
 .carousel-wrapper {
   position: relative;
   width: 100%;
   margin: 20px 0;
 
   .carousel-container {
-    display: flex;
     overflow-x: auto;
     scroll-behavior: smooth;
     padding: 2px 0;
-    gap: 6px;
     width: 100%;
     scrollbar-width: none;
+
     &::-webkit-scrollbar {
       display: none;
     }
@@ -18,10 +19,11 @@
 
   .carousel-item {
     flex: 0 0 auto;
-    width: 150px;
-    height: 200px;
+    width: 130px;
+    height: 180px;
     position: relative;
     cursor: grab;
+    background-color: rgba(255, 255, 255, 0.05);
 
     &:active {
       cursor: grabbing;
@@ -33,7 +35,36 @@
     height: 100%;
     object-fit: cover;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .drag-placeholder {
+    width: 80px;
+    height: 100px;
+    border-radius: 6px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 2px dashed rgba(255, 255, 255, 0.3);
+    margin: 4px;
+  }
+
+  @media (max-width: 768px) {
+    .carousel-item {
+      width: 100px;
+      height: 140px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .carousel-item {
+      width: 80px;
+      height: 110px;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .carousel-item {
+      width: 70px;
+      height: 100px;
+    }
   }
 
   .btn-toggle-scroll,
@@ -41,7 +72,7 @@
     position: absolute;
     z-index: 10;
     background: rgba(0, 0, 0, 0.5);
-    color: white;
+    color: $pure-white;
     border: none;
     padding: 5px 10px;
     border-radius: 4px;
@@ -63,20 +94,3 @@
     }
   }
 }
-
-.carousel-drag-preview {
-  width: 85px;
-  height: 120px;
-  object-fit: cover;
-  border-radius: 4px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-.game-placeholder {
-  width: 85px;
-  height: 120px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 2px dashed #ccc;
-  border-radius: 4px;
-}
-

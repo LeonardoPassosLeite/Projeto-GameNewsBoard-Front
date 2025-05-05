@@ -1,10 +1,17 @@
-<div class="tier-list-container carousel-container">
-  <div class="carousel-section" *ngIf="!viewOnlyMode">
+<div class="tier-list-container">
+  <app-navigate-button
+    [label]="'Voltar'"
+    [icon]="'fas fa-arrow-left'"
+    [className]="'btn-back'"
+    (click)="goBackToTierList()"
+  />
+
+  <div class="carousel-container" *ngIf="!viewOnlyMode">
     <app-game-carousel [connectedDropLists]="dropListIds"></app-game-carousel>
   </div>
 
   <div class="container-overflow scroll" [class.view-only]="viewOnlyMode">
-    <div class="tier-list-header d-flex space-between mb-10">
+    <div class="tier-list-header d-flex space-between">
       <h1 class="fs-24">{{ tierTitle }}</h1>
       <button
         class="view-toggle-btn"
@@ -15,30 +22,36 @@
       </button>
     </div>
 
-    <div class="tier-row tier-{{ tier.label.toLowerCase() }}" *ngFor="let tier of tiers">
-      <div class="tier-label">{{ tier.label }}</div>
+    <div class="tier-row d-flex tier-{{ tier.label.toLowerCase() }}" *ngFor="let tier of tiers">
+      <div class="tier-label d-flex center jc-center fs-18 bold">{{ tier.label }}</div>
 
       <div
-        class="tier-dropzone"
+        class="tier-dropzone d-flex wrap"
         cdkDropList
-        cdkDropListSortingDisabled="true"
         [id]="'tier-drop-' + tier.level"
         [cdkDropListData]="tierGames[tier.level]"
         [cdkDropListConnectedTo]="dropListIds"
+        cdkDropListSortingDisabled="true"
         (cdkDropListDropped)="onDrop($event, tier.level)"
       >
         <div
           *ngFor="let game of tierGames[tier.level]"
-          class="game-in-tier"
+          class="game-icon"
           cdkDrag
           [cdkDragData]="game"
         >
           <img [src]="getFullCoverUrl(game.coverImage)" [alt]="game.title" />
           <button class="remove-button" (click)="removeGame(game)">×</button>
+
+          <ng-template cdkDragPlaceholder>
+            <div class="game-icon placeholder-preview">
+              <img [src]="getFullCoverUrl(game.coverImage)" [alt]="game.title" />
+            </div>
+          </ng-template>
         </div>
 
-        <div *ngIf="tierGames[tier.level]?.length === 0" class="empty-dropzone">
-          <span> Arraste jogos para aqui</span>
+        <div *ngIf="tierGames[tier.level]?.length === 0" class="empty-dropzone d-flex center">
+          <span>Arraste jogos para aqui</span>
         </div>
       </div>
     </div>

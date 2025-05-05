@@ -1,37 +1,56 @@
-<form [formGroup]="form" (ngSubmit)="submit()" class="create-tier-form">
-  <!-- Campo de título -->
-  <div class="form-group">
-    <app-input
-      formControlName="title"
-      [label]="'Título'"
-      [placeholder]="'Ex: Meus favoritos da franquia Zelda'"
-    ></app-input>
-  </div>
+<app-navigate-button
+[label]="'Voltar'"
+[icon]="'fas fa-arrow-left'"
+[className]="'btn-back'"
+(click)="goBackToTierList()"
+/>
 
-  <!-- Campo de upload de imagem -->
-  <div class="form-group">
-    <label for="image" class="upload-label">Selecione uma imagem</label>
-    <input
-      type="file"
-      id="image"
-      class="upload-input"
-      (change)="onFileSelected($event)"
-      accept="image/png, image/jpeg, image/webp"
-    />
-
-    <!-- Pré-visualização -->
-    <div *ngIf="previewUrl" class="preview-container">
-      <img [src]="previewUrl" alt="Pré-visualização" class="preview-img" />
+<div class="form-wrapper">
+  <form [formGroup]="form" (ngSubmit)="submit()" class="create-tier-form">
+    <!-- Campo de título -->
+    <div class="form-group">
+      <app-input
+        formControlName="title"
+        [label]="'Título'"
+        [placeholder]="'Ex: Meus favoritos da franquia Zelda'"
+      ></app-input>
     </div>
 
-    <!-- Feedback de upload -->
-    <div *ngIf="uploading" class="uploading-text">
-      <em>Enviando imagem...</em>
-    </div>
-  </div>
+    <!-- Upload de imagem -->
+    <div class="form-group">
+      <label class="upload-label">Selecione uma imagem</label>
 
-  <!-- Botão -->
-  <button type="submit" [disabled]="form.invalid || uploading || !imageId" class="create-button">
-    Criar Tier
-  </button>
-</form>
+      <!-- ÁREA DE UPLOAD COM LABEL PARA CAPTURAR CLIQUE -->
+      <label class="upload-dropzone" [class.has-preview]="previewUrl">
+        <input
+          type="file"
+          class="upload-input"
+          (change)="onFileSelected($event)"
+          accept="image/png, image/jpeg, image/webp"
+          hidden
+        />
+
+        <!-- Se tiver imagem, mostra a imagem -->
+        <img *ngIf="previewUrl" [src]="previewUrl" class="upload-preview-img" />
+
+        <!-- Se não tiver imagem, mostra o ícone e texto -->
+        <ng-container *ngIf="!previewUrl">
+          <fa-icon [icon]="['fas', 'image']" class="upload-icon"></fa-icon>
+          <p class="upload-text">Clique para escolher uma imagem</p>
+        </ng-container>
+      </label>
+
+      <!-- Indicador de upload -->
+      <div *ngIf="uploading" class="uploading-text">
+        <fa-icon [icon]="faSpinner" class="fa-spin" /> Enviando imagem...
+      </div>
+    </div>
+
+    <!-- Botão de submit componetizado -->
+    <app-submit-button
+      [label]="'Criar Tier'"
+      [disabled]="form.invalid || uploading || !imageId"
+      [routeAfterSubmit]="getRedirectRoute()"
+    ></app-submit-button>
+  </form>
+</div>

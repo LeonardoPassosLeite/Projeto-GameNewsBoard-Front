@@ -1,6 +1,22 @@
 @import '../../../../../../shareds/colors.scss';
 
 .tier-list-container {
+  .tier-list-header {
+    .view-toggle-btn {
+      background: none;
+      border: none;
+      color: $pure-white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 4px;
+      transition: transform 0.2s ease;
+
+      &:hover {
+        transform: scale(1.15);
+      }
+    }
+  }
+
   .container-overflow {
     height: 67vh;
     overflow-y: auto;
@@ -11,9 +27,8 @@
     }
 
     .tier-row {
-      min-height: 10vh;
-      display: flex;
       align-items: stretch;
+      min-height: 12.5vh;
       border-radius: 6px;
       overflow: hidden;
     }
@@ -21,23 +36,17 @@
     .tier-label {
       width: 80px;
       min-width: 80px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 1.3em;
-      font-weight: bold;
       background-color: rgba(0, 0, 0, 0.2);
       padding: 10px;
+      box-sizing: border-box;
     }
 
     .tier-dropzone {
       flex: 1;
-      padding: 2px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 3px;
-      align-items: center;
+      padding: 0;
+      gap: 2px;
       border: 1px dashed $pure-white;
+      box-sizing: border-box;
 
       &.cdk-drop-list-dragging {
         background-color: rgba(0, 0, 0, 0.1);
@@ -48,100 +57,80 @@
       }
     }
   }
-}
 
-.game-in-tier {
-  position: relative;
-  width: 85px;
-  height: 120px;
-  cursor: grab;
-  border-radius: 4px;
-  overflow: hidden;
-
-  &:hover {
-    transform: scale(1.05);
-    z-index: 2;
-
-    .remove-button {
-      opacity: 1;
+  // Ajustes por resolução
+  @media (min-width: 2560px) {
+    .container-overflow {
+      width: 53.1%; // Quad HD
     }
   }
 
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    border-radius: 4px;
+  @media (min-width: 3840px) {
+    .container-overflow {
+      width: 39.4%; // 4K
+
+      .tier-row {
+        min-height: 8.5vh;
+      }
+    }
   }
 
-  .remove-button {
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    width: 20px;
-    height: 20px;
-    font-size: 14px;
-    font-weight: bold;
-    line-height: 20px;
-    border: none;
-    border-radius: 50%;
-    color: $pure-white;
-    background-color: rgba(0, 0, 0, 0.7);
-    cursor: pointer;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-    z-index: 3;
-  }
-}
+  @media (orientation: portrait) {
+    .container-overflow {
+      width: 60.8%;
+    }
 
-.empty-dropzone {
-  font-style: italic;
-  color: $neutral-gray;
-  padding: 20px;
-  text-align: center;
-  width: 100%;
-}
-
-.cdk-drag-placeholder {
-  opacity: 0.3;
-}
-
-.cdk-drag-animating {
-  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
-}
-
-.tier-list-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-
-  .view-toggle-btn {
-    background: none;
-    border: none;
-    color: $pure-white;
-    font-size: 1.5rem;
-    cursor: pointer;
-    padding: 4px;
-    transition: transform 0.2s ease;
-
-    &:hover {
-      transform: scale(1.15);
+    .game-icon {
+      width: 130px;
+      height: 180px;
     }
   }
 }
 
-//Map Tiers
-$tier-colors: (
-  sss: #ffa500,
-  ss: #e83e8c,
-  s: #6f42c1,
-  a: #007bff,
-  c: #28a745,
-  d: #6c757d,
-  f: #dc3545,
-);
+// Responsivo para mobile
+@media (max-width: 768px) {
+  .tier-list-container {
+    .container-overflow {
+      width: 100%;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+
+      .tier-row {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+      }
+
+      .tier-label {
+        width: 100%;
+        text-align: center;
+        font-size: 1.2rem;
+        padding: 6px 0;
+      }
+
+      .tier-dropzone {
+        width: 100%;
+        padding: 10px;
+        min-height: 120px;
+        border-radius: 6px;
+      }
+    }
+  }
+
+  .game-icon {
+    width: 80px;
+    height: 110px;
+  }
+}
+
+@media (max-width: 377px) {
+  .game-icon {
+    width: 79px;
+    height: 109px;
+  }
+}
 
 @each $tier, $color in $tier-colors {
   .tier-#{$tier} {

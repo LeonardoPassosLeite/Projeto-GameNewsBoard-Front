@@ -1,5 +1,5 @@
 <div class="container-global-tier">
-  <div class="d-flex center space-between mb-20">
+  <div class="header-wrapper">
     <h2 class="tier-title">Suas Tier Lists</h2>
     <app-navigate-button
       label="Criar nova tier"
@@ -9,9 +9,24 @@
     />
   </div>
 
-  <div class="container-tier d-flex">
-    <div class="tier-card" *ngFor="let tier of tierLists" (click)="goToTier(tier.id)">
-      <div class="tier-image" [style.backgroundImage]="'url(' + getImageUrl(tier.imageUrl) + ')'">
+  <div class="container-tier">
+    <div
+      class="tier-card"
+      *ngFor="let tier of tierLists"
+      (mouseenter)="hoveredTierId = tier.id"
+      (mouseleave)="hoveredTierId = null"
+    >
+      <app-remove-button
+        class="remove-button"
+        tooltip="Excluir tier"
+        (click)="openConfirmDialog(tier.id); $event.stopPropagation()"
+      />
+
+      <div
+        class="tier-image"
+        [style.backgroundImage]="'url(' + getImageUrl(tier.imageUrl) + ')'"
+        (click)="goToTier(tier.id)"
+      >
         <div class="tier-info-overlay">
           <h3 class="tier-name">{{ tier.title }}</h3>
           <p class="tier-sub">Clique para ver o ranking</p>
@@ -20,3 +35,13 @@
     </div>
   </div>
 </div>
+
+<!-- Modal de confirmação -->
+<app-confirm-dialog
+  *ngIf="confirmTierId"
+  [message]="'Tem certeza que deseja excluir esta tier list?'"
+  [confirmText]="'Excluir'"
+  [cancelText]="'Cancelar'"
+  (confirmed)="onDeleteConfirmed()"
+  (cancelled)="onDeleteCancelled()"
+/>

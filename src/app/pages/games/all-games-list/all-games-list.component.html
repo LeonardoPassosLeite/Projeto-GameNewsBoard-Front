@@ -1,6 +1,6 @@
 <app-gamer-loading *ngIf="isLoading" />
 
-<app-game-search-filter (filtersChanged)="onFiltersChanged($event)"/>
+<app-game-search-filter (filtersChanged)="onFiltersChanged($event)" />
 
 <div *ngIf="!games.length && message" class="user-message text-center mt-20">
   {{ message }}
@@ -37,5 +37,10 @@
 </div>
 
 <div class="pagination-wrapper" *ngIf="!isLoading && games.length">
-  <app-pagination [page]="page" [hasNext]="hasMoreGames" (previous)="previousPage()" (next)="nextPage()" />
+  <app-pagination
+    [page]="page"
+    [hasNext]="hasMoreGames"
+    (previous)="previousPage()"
+    (next)="nextPage()"
+  />
 </div>

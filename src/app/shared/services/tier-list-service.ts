@@ -19,10 +19,19 @@ export class TierListService {
       .pipe(catchError(this.errorHandler.handleWithThrow.bind(this.errorHandler)));
   }
 
+  deleteTierList(tierListId: string): Observable<void> {
+    return this.http.delete<ApiResponse<any>>(`${this.baseUrl}/${tierListId}`).pipe(
+      map((response) => {
+        if (!response.success) throw new Error(response.message || 'Erro ao deletar a tier list.');
+      }),
+      catchError(this.errorHandler.handleWithThrow.bind(this.errorHandler))
+    );
+  }
+
   setGameTier(tierListId: string, request: TierListEntryRequest): Observable<void> {
     return this.http.put<ApiResponse<any>>(`${this.baseUrl}/${tierListId}/entries`, request).pipe(
       map((response) => {
-        if (!response.success) throw new Error('Erro ao definir tier do jogo.');
+        if (!response.success) throw new Error(response.message || 'Erro ao definir tier do jogo.');
       }),
       catchError(this.errorHandler.handleWithThrow.bind(this.errorHandler))
     );
@@ -35,27 +44,8 @@ export class TierListService {
       .delete<ApiResponse<any>>(`${this.baseUrl}/${tierListId}/remove-game`, { params })
       .pipe(
         map((response) => {
-          if (!response.success) throw new Error('Erro ao remover jogo do tier.');
-        }),
-        catchError(this.errorHandler.handleWithThrow.bind(this.errorHandler))
-      );
-  }
-
-  uploadImage(image: File): Observable<{ imageUrl: string; imageId: string }> {
-    const formData = new FormData();
-    formData.append('image', image);
-
-    return this.http
-      .post<ApiResponse<{ imageUrl: string; imageId: string }>>(
-        `${this.baseUrl}/upload-image`,
-        formData
-      )
-      .pipe(
-        map((res) => {
-          if (!res || !res.success || !res.data || !res.data.imageUrl || !res.data.imageId)
-            throw new Error('Resposta de upload inválida.');
-
-          return res.data;
+          if (!response.success)
+            throw new Error(response.message || 'Erro ao remover jogo do tier.');
         }),
         catchError(this.errorHandler.handleWithThrow.bind(this.errorHandler))
       );

@@ -1,39 +1,41 @@
-<div class="status-list-container carousel-container">
-  <!-- <div class="carousel-section">
+<div class="status-list-container">
+  <div class="carousel-container">
     <app-game-carousel [connectedDropLists]="dropListIds"></app-game-carousel>
   </div>
 
-  <div class="status-columns">
-    <div
-      class="status-column"
-      *ngFor="let status of statusList"
-      [ngClass]="'status-' + status.toLowerCase()"
-    >
-      <div class="status-header">{{ status }}</div>
+  <div class="container-overflow d-flex">
+    <div class="status-column" *ngFor="let status of statusList">
+      <div class="status-header">{{ statusLabels[status] }}</div>
 
       <div
-        class="status-dropzone"
+        class="status-dropzone scroll"
         cdkDropList
-        cdkDropListSortingDisabled="true"
         [id]="'status-drop-' + status"
         [cdkDropListData]="statusGames[status]"
         [cdkDropListConnectedTo]="dropListIds"
+        cdkDropListSortingDisabled="true"
         (cdkDropListDropped)="onDrop($event, status)"
       >
         <div
           *ngFor="let game of statusGames[status]"
-          class="game-in-status"
+          class="game-icon"
           cdkDrag
           [cdkDragData]="game"
-        > -->
-          <!-- <img [src]="getFullCoverUrl(game.coverImage)" [alt]="game.title" /> -->
-          <!-- <button class="remove-button" (click)="removeGame(game)">×</button> -->
+        >
+          <img [src]="getFullCoverUrl(game.coverImage)" [alt]="game.title" />
+          <button class="remove-button" (click)="removeGame(game)">×</button>
+
+          <ng-template cdkDragPlaceholder>
+            <div class="game-icon placeholder-preview">
+              <img [src]="getFullCoverUrl(game.coverImage)" [alt]="game.title" />
+            </div>
+          </ng-template>
         </div>
-<!-- 
-        <div *ngIf="statusGames[status]?.length === 0" class="empty-dropzone">
+
+        <div *ngIf="statusGames[status].length === 0" class="empty-dropzone">
           <span>Arraste jogos para aqui</span>
         </div>
       </div>
     </div>
   </div>
-</div> -->
+</div>

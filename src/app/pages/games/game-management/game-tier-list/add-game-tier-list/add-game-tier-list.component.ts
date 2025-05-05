@@ -1,4 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { GameCarouselComponent } from '../../../../../shared/components/game-carousel/game-carousel.component';
 import { DragDropModule, CdkDragDrop } from '@angular/cdk/drag-drop';
@@ -7,11 +7,12 @@ import { TierListService } from '../../../../../shared/services/tier-list-servic
 import { MatTableModule } from '@angular/material/table';
 import { GameResponse } from '../../../../../shared/models/game.model';
 import { TierLevel } from '../../../../../shared/enums/tier-level.enum';
-import { faExpand, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import { faExpand, faPenToSquare, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ToastrService } from 'ngx-toastr';
 import { ErrorHandlingService } from '../../../../../shared/services/commons/error-handling.service';
 import { TierListEntryRequest } from '../../../../../shared/models/tier-list-entry.model';
+import { NavigateButtonComponent } from '../../../../../shared/forms/navigate-button/navigate-button.component';
 
 @Component({
   selector: 'app-add-game-tier-list',
@@ -22,6 +23,7 @@ import { TierListEntryRequest } from '../../../../../shared/models/tier-list-ent
     DragDropModule,
     MatTableModule,
     FontAwesomeModule,
+    NavigateButtonComponent
   ],
   templateUrl: './add-game-tier-list.component.html',
   styleUrls: ['./add-game-tier-list.component.scss'],
@@ -34,9 +36,12 @@ export class AddGameTierListComponent implements OnInit {
   viewOnlyMode = false;
   faExpand = faExpand;
   faPenToSquare = faPenToSquare;
+  faArrowLeft = faArrowLeft;
 
   tierGames: { [tierLevel: number]: GameResponse[] } = {};
   gameTierMapping: { [gameId: number]: TierLevel } = {};
+
+  isMobileView = false;
 
   readonly tiers = [
     { level: TierLevel.SSS, label: 'SSS' },
@@ -52,20 +57,27 @@ export class AddGameTierListComponent implements OnInit {
     private route: ActivatedRoute,
     private tierListService: TierListService,
     private toastr: ToastrService,
-    private errorHandler: ErrorHandlingService
+    private errorHandler: ErrorHandlingService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
+    this.updateViewMode(); // primeiro check
+  
+    window.addEventListener('resize', this.updateViewMode.bind(this));
+  
     this.route.paramMap.subscribe((params) => {
       this.tierId = params.get('tierId');
-
       this.prepareDropListIds();
       this.initializeTierGames();
-
+  
       if (this.tierId) {
         this.loadTierListGames(this.tierId);
       }
     });
+  }
+  private updateViewMode(): void {
+    this.isMobileView = window.innerWidth <= 768; // ajuste conforme o breakpoint desejado
   }
 
   private loadTierListGames(tierId: string): void {
@@ -128,7 +140,7 @@ export class AddGameTierListComponent implements OnInit {
 
     const request: TierListEntryRequest = {
       gameId: game.id,
-      tier: tierLevel
+      tier: tierLevel,
     };
 
     this.tierListService.setGameTier(this.tierId!, request).subscribe({
@@ -168,7 +180,7 @@ export class AddGameTierListComponent implements OnInit {
 
     const request: TierListEntryRequest = {
       gameId: game.id,
-      tier: newTier
+      tier: newTier,
     };
 
     this.tierListService.setGameTier(this.tierId!, request).subscribe({
@@ -189,5 +201,9 @@ export class AddGameTierListComponent implements OnInit {
 
   toggleViewMode(): void {
     this.viewOnlyMode = !this.viewOnlyMode;
+  }
+
+  goBackToTierList(): void {
+    this.router.navigate(['/nav-bar/tier-list']);
   }
 }

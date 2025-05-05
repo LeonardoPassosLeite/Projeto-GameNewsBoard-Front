@@ -6,8 +6,8 @@ import { NavigationService } from '../../services/commons/navigation.service';
   selector: 'app-nav-bar',
   imports: [RouterModule],
   templateUrl: './nav-bar.component.html',
-  styleUrl: './nav-bar.component.scss'
+  styleUrl: './nav-bar.component.scss',
 })
 export class NavBarComponent {
-  constructor(public navigation: NavigationService) { }
+  constructor(public navigation: NavigationService) {}
 }

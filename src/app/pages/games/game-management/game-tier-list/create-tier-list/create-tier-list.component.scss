@@ -1,68 +1,87 @@
+@import '../../../../../../shareds/colors.scss';
+
+.form-wrapper {
+  margin-top: 20vh;
+}
+
 .create-tier-form {
-    max-width: 600px;
-    margin: 50px auto;
-    background: linear-gradient(135deg, #1e1e1e2f, #0000002a);
-    padding: 2rem;
-    border-radius: 1rem;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    box-shadow: 0 0 20px rgba(0, 255, 200, 0.2);
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 30px;
+  background: linear-gradient(135deg, #1e1e1e40, #00000050);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.upload-label {
+  font-weight: 600;
+  color: $pure-white;
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+
+.upload-dropzone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 280px;
+  border: 2px dashed $pure-white;
+  border-radius: 12px;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.03);
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
   }
-  
-  .form-group {
-    margin-bottom: 1.5rem;
+
+  &.has-preview {
+    padding: 0;
+    justify-content: center;
   }
-  
-  .upload-label {
-    display: block;
+
+  input.upload-input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 10;
+  }
+
+  .upload-preview-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; // <- Exibe a imagem inteira sem corte
+    border-radius: 12px;
+    background-color: black; // ou transparente se quiser
+    z-index: 1;
+  }
+
+  .upload-icon {
+    font-size: 2rem;
+    color: $pure-white;
+    margin-bottom: 10px;
+    z-index: 1;
+  }
+
+  .upload-text {
+    color: $neutral-gray;
     font-size: 1rem;
-    font-weight: 600;
-    color: #00ffc3;
-    margin-bottom: 8px;
+    font-weight: 500;
+    z-index: 1;
   }
-  
-  .upload-input {
-    width: 100%;
-    background: transparent;
-    color: #fff;
-    padding: 10px;
-    border: 1px solid #00ffc3;
-    border-radius: 6px;
-    font-size: 0.9rem;
-  }
-  
-  .preview-container {
-    margin-top: 15px;
-    text-align: center;
-  }
-  
-  .preview-img {
-    width: 100%;
-    max-height: 300px;
-    object-fit: contain;
-    border-radius: 8px;
-    border: 1px solid #00ffc3;
-  }
-  
-  .uploading-text {
-    margin-top: 10px;
-    color: #bbb;
-    font-style: italic;
-  }
-  
-  .create-button {
-    width: 100%;
-    background-color: #00ffc3;
-    color: #000;
-    padding: 10px;
-    font-weight: bold;
-    border: none;
-    border-radius: 8px;
-    transition: all 0.2s ease;
-  
-    &:hover {
-      background-color: #00dab0;
-      transform: scale(1.05);
-    }
-  }
-  
+}
