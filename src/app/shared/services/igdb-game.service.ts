@@ -4,11 +4,11 @@ import { Observable, catchError } from 'rxjs';
 import { PaginatedResult } from '../models/commons/paginated-result.model';
 import { ErrorHandlingService } from './commons/error-handling.service';
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from '../constants/pagination.constants';
-import { environment } from '../../../environments/environments';
 import { ApiResponse } from '../models/commons/api-response.model';
 import { Platform } from '../enums/platform.enum';
 import { YearCategory } from '../enums/year-category.enum';
 import { GameResponse } from '../models/game.model';
+import { environment } from '../../../environments/environments';
 
 @Injectable({
   providedIn: 'root'

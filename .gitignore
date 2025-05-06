@@ -52,5 +52,3 @@ public/
 *.tmp
 .DS_Store
 Thumbs.db
-src/environments/environment*.ts
-

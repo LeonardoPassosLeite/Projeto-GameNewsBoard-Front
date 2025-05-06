@@ -3,12 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { GameNewsResponse } from '../models/games-news.model';
 import { ApiResponse } from '../models/commons/api-response.model';
+import { environment } from '../../../environments/environments';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GameNewsService {
-  private readonly baseUrl = 'http://localhost:5140/api/GameNews';
+  private readonly baseUrl = `${environment.apiBaseUrl}/GameNews`;
 
   constructor(private http: HttpClient) {}
 
