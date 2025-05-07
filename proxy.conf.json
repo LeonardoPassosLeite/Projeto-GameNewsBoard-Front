@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "${NGROK_URL}",  
+    "target": "http://localhost:5140",  
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug",
