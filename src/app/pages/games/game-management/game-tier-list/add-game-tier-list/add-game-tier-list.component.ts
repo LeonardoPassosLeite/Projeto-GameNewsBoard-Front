@@ -7,7 +7,6 @@ import { TierListService } from '../../../../../shared/services/tier-list-servic
 import { MatTableModule } from '@angular/material/table';
 import { GameResponse } from '../../../../../shared/models/game.model';
 import { TierLevel } from '../../../../../shared/enums/tier-level.enum';
-import { faExpand, faPenToSquare, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ToastrService } from 'ngx-toastr';
 import { ErrorHandlingService } from '../../../../../shared/services/commons/error-handling.service';
@@ -34,9 +33,6 @@ export class AddGameTierListComponent implements OnInit {
   tierTitle: string = '';
   errorMessage: string = '';
   viewOnlyMode = false;
-  faExpand = faExpand;
-  faPenToSquare = faPenToSquare;
-  faArrowLeft = faArrowLeft;
 
   tierGames: { [tierLevel: number]: GameResponse[] } = {};
   gameTierMapping: { [gameId: number]: TierLevel } = {};
@@ -62,7 +58,7 @@ export class AddGameTierListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.updateViewMode(); // primeiro check
+    this.updateViewMode();
   
     window.addEventListener('resize', this.updateViewMode.bind(this));
   
@@ -77,7 +73,7 @@ export class AddGameTierListComponent implements OnInit {
     });
   }
   private updateViewMode(): void {
-    this.isMobileView = window.innerWidth <= 768; // ajuste conforme o breakpoint desejado
+    this.isMobileView = window.innerWidth <= 768; 
   }
 
   private loadTierListGames(tierId: string): void {

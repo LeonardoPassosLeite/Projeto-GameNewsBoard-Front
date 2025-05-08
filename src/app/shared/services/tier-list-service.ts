@@ -4,7 +4,12 @@ import { Observable, catchError, map } from 'rxjs';
 import { environment } from '../../../environments/environments';
 import { ApiResponse } from '../models/commons/api-response.model';
 import { ErrorHandlingService } from './commons/error-handling.service';
-import { TierListRequest, TierListResponse } from '../models/tier-list.model';
+import {
+  TierList,
+  TierListRequest,
+  TierListResponse,
+  UpdateTierListRequest,
+} from '../models/tier-list.model';
 import { TierListEntryRequest } from '../models/tier-list-entry.model';
 
 @Injectable({ providedIn: 'root' })
@@ -13,10 +18,20 @@ export class TierListService {
 
   constructor(private http: HttpClient, private errorHandler: ErrorHandlingService) {}
 
-  createTierList(request: TierListRequest): Observable<ApiResponse<string>> {
+  createTierList(request: TierListRequest): Observable<ApiResponse<TierList>> {
     return this.http
-      .post<ApiResponse<string>>(`${this.baseUrl}`, request)
+      .post<ApiResponse<TierList>>(`${this.baseUrl}`, request)
       .pipe(catchError(this.errorHandler.handleWithThrow.bind(this.errorHandler)));
+  }
+
+  updateTierList(tierListId: string, request: UpdateTierListRequest): Observable<void> {
+    return this.http.put<ApiResponse<any>>(`${this.baseUrl}/${tierListId}`, request).pipe(
+      map((response) => {
+        if (!response.success)
+          throw new Error(response.message || 'Erro ao atualizar a tier list.');
+      }),
+      catchError(this.errorHandler.handleWithThrow.bind(this.errorHandler))
+    );
   }
 
   deleteTierList(tierListId: string): Observable<void> {

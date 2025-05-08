@@ -1,25 +1,22 @@
-<div class="container-global">
-  <!-- Botão mobile (hamburger) - só aparece em telas pequenas -->
-  <button class="mobile-menu-toggle" (click)="toggleMenu()" *ngIf="isSmallScreen">
-    <mat-icon>menu</mat-icon>
-  </button>
-
-  <!-- Side Menu -->
+<div class="container-side-menu">
+  <!-- MENU LATERAL -->
   <div
     class="side-menu"
     [class.menu-open]="menuExpanded"
     [class.collapsed]="!menuExpanded && !isSmallScreen"
   >
-    <!-- Botão de toggle (seta) posicionado corretamente -->
+    <!-- Botão colapsar/expandir para DESKTOP -->
     <button class="menu-toggle" (click)="toggleMenu()" *ngIf="!isSmallScreen">
       <mat-icon>{{ menuExpanded ? 'chevron_left' : 'chevron_right' }}</mat-icon>
     </button>
 
+    <!-- Botão fechar estilo IGN para MOBILE -->
+    <button class="menu-close-icon" (click)="toggleMenu()" *ngIf="isSmallScreen">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+
     <div class="menu-header" *ngIf="menuExpanded">
-      <h2>IGN Brasil</h2>
-      <button class="close-btn" (click)="toggleMenu()" *ngIf="isSmallScreen">
-        <mat-icon>close</mat-icon>
-      </button>
+      <h2>Game Board</h2>
     </div>
 
     <ul class="menu-list">
@@ -39,7 +36,6 @@
             {{ selectedMenuTitle === item.label ? 'expand_less' : 'expand_more' }}
           </mat-icon>
         </div>
-
         <ul
           class="submenu"
           *ngIf="
@@ -54,7 +50,6 @@
     </ul>
 
     <div class="menu-footer" *ngIf="menuExpanded">
-      <h3>Change Region</h3>
       <div class="auth-buttons">
         <button class="auth-btn">Entrar</button>
         <button class="auth-btn">Registrar</button>
@@ -62,7 +57,14 @@
     </div>
   </div>
 
-  <!-- Conteúdo principal -->
+  <div class="menu-overlay" *ngIf="menuExpanded && isSmallScreen" (click)="toggleMenu()"></div>
+
+  <app-header
+    [isSmallScreen]="isSmallScreen"
+    [menuExpanded]="menuExpanded"
+    (menuToggle)="toggleMenu()"
+  ></app-header>
+
   <div
     class="content"
     [class.menu-pushed]="menuExpanded && isSmallScreen"

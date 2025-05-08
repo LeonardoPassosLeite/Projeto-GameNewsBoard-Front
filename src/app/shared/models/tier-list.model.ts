@@ -1,8 +1,10 @@
+import { extend } from 'lodash';
 import { TierListEntry } from './tier-list-entry.model';
 
 export interface TierList {
   title: string;
-  imageUrl?: string;
+  imageUrl?: string | null;
+  imageId?: string | null;
 }
 
 export interface TierListResponse extends TierList {
@@ -10,6 +12,6 @@ export interface TierListResponse extends TierList {
   entries: TierListEntry[];
 }
 
-export interface TierListRequest extends TierList {
-  imageId?: string;
-}
+export interface TierListRequest extends TierList {}
+
+export interface UpdateTierListRequest extends TierList {}

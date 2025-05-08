@@ -22,7 +22,6 @@ export class GameStatusListComponent implements OnInit {
 
   statusList = [
     Status.InProgress,
-
     Status.Platinum,
     Status.Replaying,
     Status.Paused,

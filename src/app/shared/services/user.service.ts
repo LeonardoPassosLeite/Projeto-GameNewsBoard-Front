@@ -8,7 +8,7 @@ import { ApiResponse } from '../models/commons/api-response.model';
 import { UserProfileResponse } from '../models/user-profile.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
   private readonly baseUrl = `${environment.apiBaseUrl}/user`;
@@ -16,18 +16,20 @@ export class UserService {
   constructor(private http: HttpClient, private errorHandler: ErrorHandlingService) {}
 
   getAuthenticatedUserSafe(): Observable<UserProfileResponse | null> {
-    return this.http.get<ApiResponse<UserProfileResponse>>(`${this.baseUrl}/me`, {
-      withCredentials: true
-    }).pipe(
-      map(response => {
-        return response.data;
-      }),
-      catchError(err => {
-        return of(null);
+    return this.http
+      .get<ApiResponse<UserProfileResponse>>(`${this.baseUrl}/me`, {
+        withCredentials: true,
       })
-    );
-  }  
-  
+      .pipe(
+        map((response) => {
+          return response.data;
+        }),
+        catchError((err) => {
+          return of(null);
+        })
+      );
+  }
+
   // getUserProfile(): Observable<UserProfileResponse> {
   //   return this.http.get<ApiResponse<UserProfileResponse>>(`${this.baseUrl}/profile`).pipe(
   //     map(response => response.data),

@@ -58,16 +58,15 @@
     }
   }
 
-  // Ajustes por resolução
   @media (min-width: 2560px) {
     .container-overflow {
-      width: 52.5%; // Quad HD
+      width: 52.5%;
     }
   }
 
   @media (min-width: 3840px) {
     .container-overflow {
-      width: 39.4%; // 4K
+      width: 39.4%;
 
       .tier-row {
         min-height: 8.5vh;
@@ -77,11 +76,22 @@
 
   @media (orientation: portrait) {
     .container-overflow {
-      width: 60.8%;
+      width: 84.9%;
 
       .tier-row {
-        min-height: 10.2vh;
+        min-height: 11.2vh;
+        flex-direction: column;
       }
+
+      .tier-label {
+        width: 100%;
+        text-align: center;
+        font-size: 1.2rem;
+        padding: 6px 0;
+      }
+    }
+    .empty-dropzone {
+      padding-top: 10%;
     }
 
     .game-icon {
@@ -91,9 +101,9 @@
   }
 }
 
-// Responsivo para mobile
 @media (max-width: 768px) {
   .tier-list-container {
+    margin-top: 20px;
     .container-overflow {
       width: 100%;
       height: auto;
@@ -129,11 +139,11 @@
   }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 600px) {
   .tier-list-container {
     .game-icon {
-      width: 80px;
-      height: 110px;
+      width: 90px;
+      height: 120px;
     }
   }
 }

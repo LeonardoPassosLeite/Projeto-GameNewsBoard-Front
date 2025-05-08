@@ -10,17 +10,7 @@
   background: linear-gradient(135deg, #1e1e1e2f, #0000002a);
   backdrop-filter: blur(8px);
 
-  .header-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-
   .tier-title {
-    font-size: 1.6rem;
     color: $pure-white;
     margin: 0;
   }
@@ -30,9 +20,6 @@
   }
 
   .container-tier {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
     padding: 0.8rem;
     background: linear-gradient(135deg, #1e1e1e2f, #0000002a);
     border-radius: 1rem;
@@ -45,7 +32,6 @@
       background-color: $void-black;
       border-radius: 12px;
       overflow: hidden;
-      display: flex;
       flex-direction: column;
       transition: transform 0.2s ease-in-out;
       cursor: pointer;
@@ -65,7 +51,6 @@
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        display: flex;
         align-items: flex-end;
         aspect-ratio: 16 / 9;
       }
@@ -92,102 +77,61 @@
     }
 
     .remove-button {
+      position: absolute;
+      top: 10px;
+      z-index: 2;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.2s ease-in-out;
     }
-  }
 
-  // Breakpoint menor que 1366px (laptop)
-  @include respond(laptop) {
-    .tier-title {
+    .edit-button {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      color: $pure-white;
       font-size: 1.2rem;
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 50%;
+      padding: 8px;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease-in-out;
+      z-index: 2;
     }
 
-    .create-button {
-      font-size: 0.75rem;
-      padding: 6px 12px;
-    }
+    .tier-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 10px $pure-white;
 
-    .container-tier {
-      .tier-card {
-        width: 340px;
-        height: 280px;
+      ::ng-deep .remove-button,
+      .edit-button {
+        opacity: 1;
+        pointer-events: auto;
       }
     }
   }
 
-  // Telas menores (mobile ou tablets pequenos)
-  @media (max-width: 768px) {
-    .header-wrapper {
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .tier-title {
-      font-size: 1.1rem;
-      text-align: center;
-    }
-
-    .create-button {
-      width: 100%;
-      text-align: center;
-    }
-
+  @media (orientation: portrait) {
     .container-tier {
-      justify-content: center;
-
       .tier-card {
-        width: 95vw;
-        height: auto;
-      
-        .tier-image {
-          flex: 1;
-          min-height: 180px;  
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
-          display: flex;
-          align-items: flex-end;
-        }
-      
         .tier-info-overlay {
-          padding: 8px;
-      
+          padding: 4px;
+
           .tier-name {
-            font-size: 1rem;
+            margin-top: 10px;
+            font-size: 0.85rem;
           }
-      
+
           .tier-sub {
-            font-size: 0.75rem;
+            font-size: 0.65rem;
           }
         }
       }
-      
     }
   }
 
-  // 🔹 Celulares muito pequenos (ex: até 425px de largura)
-@media (max-width: 725px) {
-  .container-tier {
-    .tier-card {
-      .tier-info-overlay {
-        padding: 4px;
-
-        .tier-name {
-          font-size: 0.85rem;
-        }
-
-        .tier-sub {
-          font-size: 0.65rem;
-        }
-      }
-    }
-  }
-}
-
-
-  // Telas em retrato com altura grande (ex: Full HD vertical)
   @media screen and (orientation: portrait) and (min-height: 1080px) {
     .container-tier {
       justify-content: center;
@@ -196,6 +140,14 @@
         width: 90vw;
         height: auto;
       }
+    }
+  }
+
+  @media (max-width: 600px) {
+    .tier-list-container {
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
     }
   }
 }

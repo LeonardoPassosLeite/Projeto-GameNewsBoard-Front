@@ -7,6 +7,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faXbox, faPlaystation, faSteam } from '@fortawesome/free-brands-svg-icons';
 import { faGamepad } from '@fortawesome/free-solid-svg-icons';
 import { GameNewsService } from '../../shared/services/game-news.service';
+import { NotificationService } from '../../shared/services/commons/notification.service';
 
 @Component({
   selector: 'app-game-news',
@@ -17,6 +18,7 @@ import { GameNewsService } from '../../shared/services/game-news.service';
 })
 export class GameNewsComponent implements OnInit {
   news: GameNewsArticle[] = [];
+  isLoading = false;
 
   platforms = [
     { value: 'xbox', icon: faXbox },
@@ -27,7 +29,10 @@ export class GameNewsComponent implements OnInit {
 
   selectedPlatform = 'xbox';
 
-  constructor(private gamesNewsService: GameNewsService) {}
+  constructor(
+    private gamesNewsService: GameNewsService,
+    private notification: NotificationService
+  ) {}
 
   get slicedNews(): GameNewsArticle[] {
     return this.news?.slice(1) ?? [];
@@ -37,17 +42,30 @@ export class GameNewsComponent implements OnInit {
     this.loadGameNews(this.selectedPlatform);
   }
 
-  loadGameNews(platform: string) {
+  loadGameNews(platform: string): void {
     this.selectedPlatform = platform;
+    this.isLoading = true;
+
     this.gamesNewsService.getNewsByPlatform(platform).subscribe({
-      next: (response) => {
-        if (response.success) {
-          this.news = response.data.articles;
-        } else {
-          console.error('Erro ao carregar notícias:', response.message);
-        }
-      },
-      error: (err) => console.error('Erro ao buscar notícias', err),
+      next: (res) => this.handleResponse(res),
+      error: (err) => this.handleError(err),
     });
+  }
+
+  private handleResponse(response: any): void {
+    this.isLoading = false;
+    if (response.success) {
+      this.news = response.data.articles;
+    } else {
+      console.error('Erro ao carregar notícias:', response.message);
+      this.notification.error(response.message || 'Erro ao carregar notícias');
+    }
+  }
+
+  private handleError(error: any): void {
+    this.isLoading = false;
+    const errorMessage = error?.message || 'Erro ao buscar notícias.';
+    console.error(errorMessage, error);
+    this.notification.error(errorMessage);
   }
 }

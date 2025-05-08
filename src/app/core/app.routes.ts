@@ -8,8 +8,8 @@ import { GuestGuard } from './auth/guards/guest.guard';
 import { LoginComponent } from './auth/login/login.component';
 import { UserRegisterComponent } from './auth/login/user-register/user-register.component';
 import { NavBarComponent } from '../shared/nav/nav-bar/nav-bar.component';
-import { CreateTierListComponent } from '../pages/games/game-management/game-tier-list/create-tier-list/create-tier-list.component';
 import { AddGameTierListComponent } from '../pages/games/game-management/game-tier-list/add-game-tier-list/add-game-tier-list.component';
+import { TierListFormComponent } from '../pages/games/game-management/game-tier-list/tier-list-form/tier-list-form.component';
 
 export const routes: Routes = [
   {
@@ -42,6 +42,7 @@ export const routes: Routes = [
       {
         path: 'nav-bar',
         component: NavBarComponent,
+        canActivate: [AuthGuard],
         children: [
           {
             path: '',
@@ -66,11 +67,18 @@ export const routes: Routes = [
       },
       {
         path: 'manage-games/tier-list/create-tier-list',
-        component: CreateTierListComponent,
+        component: TierListFormComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'manage-games/tier-list/edit-tier-list/:tierId',
+        component: TierListFormComponent,
+        canActivate: [AuthGuard],
       },
       {
         path: 'manage-games/tier-list/add-game-tier-list/:tierId',
         component: AddGameTierListComponent,
+        canActivate: [AuthGuard],
       },
       {
         path: 'manage-games',

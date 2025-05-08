@@ -54,6 +54,12 @@
   }
 }
 
+@media (max-width: 600px) {
+  .container-overflow {
+    margin-top: 80px;
+  }
+}
+
 @media (orientation: portrait) {
   .container-overflow {
     width: 90%;

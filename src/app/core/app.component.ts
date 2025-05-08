@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { registerIcons } from '../../shareds/icons/fontawesome.icon';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,8 @@ import { RouterOutlet } from '@angular/router';
   imports: [RouterOutlet],
   template: `<router-outlet></router-outlet>`,
 })
-export class AppComponent {}
+export class AppComponent {
+  constructor(library: FaIconLibrary) {
+    registerIcons(library);
+  }
+}

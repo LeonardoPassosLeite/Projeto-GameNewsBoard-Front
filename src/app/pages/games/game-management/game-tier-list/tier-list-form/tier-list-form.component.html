@@ -1,13 +1,12 @@
 <app-navigate-button
-[label]="'Voltar'"
-[icon]="'fas fa-arrow-left'"
-[className]="'btn-back'"
-(click)="goBackToTierList()"
+  [label]="'Voltar'"
+  [icon]="'fas fa-arrow-left'"
+  [className]="'btn-back'"
+  (click)="goBackToTierList()"
 />
 
 <div class="form-wrapper">
   <form [formGroup]="form" (ngSubmit)="submit()" class="create-tier-form">
-    <!-- Campo de título -->
     <div class="form-group">
       <app-input
         formControlName="title"
@@ -16,11 +15,9 @@
       ></app-input>
     </div>
 
-    <!-- Upload de imagem -->
     <div class="form-group">
       <label class="upload-label">Selecione uma imagem</label>
 
-      <!-- ÁREA DE UPLOAD COM LABEL PARA CAPTURAR CLIQUE -->
       <label class="upload-dropzone" [class.has-preview]="previewUrl">
         <input
           type="file"
@@ -30,25 +27,21 @@
           hidden
         />
 
-        <!-- Se tiver imagem, mostra a imagem -->
         <img *ngIf="previewUrl" [src]="previewUrl" class="upload-preview-img" />
 
-        <!-- Se não tiver imagem, mostra o ícone e texto -->
         <ng-container *ngIf="!previewUrl">
           <fa-icon [icon]="['fas', 'image']" class="upload-icon"></fa-icon>
           <p class="upload-text">Clique para escolher uma imagem</p>
         </ng-container>
       </label>
 
-      <!-- Indicador de upload -->
       <div *ngIf="uploading" class="uploading-text">
-        <fa-icon [icon]="faSpinner" class="fa-spin" /> Enviando imagem...
+        <fa-icon [icon]="['fas', 'spinner']" class="fa-spin" /> Enviando imagem...
       </div>
     </div>
 
-    <!-- Botão de submit componetizado -->
     <app-submit-button
-      [label]="'Criar Tier'"
+      [label]="isEditMode ? 'Atualizar Tier' : 'Criar Tier'"
       [disabled]="form.invalid || uploading || !imageId"
       [routeAfterSubmit]="getRedirectRoute()"
     ></app-submit-button>

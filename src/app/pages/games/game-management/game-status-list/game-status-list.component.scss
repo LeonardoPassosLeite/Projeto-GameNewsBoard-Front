@@ -2,11 +2,10 @@
 
 .status-list-container {
   .container-overflow {
-    display: flex;
     flex-direction: row;
     gap: 10px;
     height: 62vh;
-    max-width: 150vh;
+    max-width: 84%;
     overflow-x: hidden;
   }
 
@@ -26,7 +25,7 @@
     font-size: 1.2em;
     text-align: center;
     margin-bottom: 8px;
-    color: white;
+    color: $pure-white;
   }
 
   .status-dropzone {

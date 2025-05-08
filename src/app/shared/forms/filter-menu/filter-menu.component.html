@@ -1,10 +1,7 @@
 <div class="filters-wrapper">
-  <button (click)="toggleFilterMenu()" class="filter-button bold">
-    Filtros
-  </button>
+  <button (click)="toggleFilterMenu()" class="filter-button bold">Filtros</button>
 
   <div class="filter-menu d-flex gap-12" *ngIf="showFilterMenu">
-    <!-- Filtro de Plataformas -->
     <label class="filter-label">Plataformas</label>
     <div class="filter-options">
       <label *ngFor="let option of platformOptions">
@@ -19,7 +16,6 @@
       </label>
     </div>
 
-    <!-- Filtro de Ano -->
     <label class="filter-label mt-10">Ano</label>
     <div class="filter-options">
       <label *ngFor="let option of yearCategoryOptions">
@@ -34,12 +30,8 @@
       </label>
     </div>
 
-    <button (click)="applyFilters()" class="apply-button mt-10 bold">
-      Aplicar Filtros
-    </button>
+    <button (click)="applyFilters()" class="apply-button mt-10 bold">Aplicar Filtros</button>
 
-    <button (click)="resetFilters()" class="reset-button mt-5">
-      Resetar Filtros
-    </button>
+    <button (click)="resetFilters()" class="reset-button mt-5">Resetar Filtros</button>
   </div>
 </div>

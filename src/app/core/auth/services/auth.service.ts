@@ -6,7 +6,7 @@ import { ApiResponse } from '../../../shared/models/commons/api-response.model';
 import { ErrorHandlingService } from '../../../shared/services/commons/error-handling.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private readonly baseUrl = `${environment.apiBaseUrl}/auth`;

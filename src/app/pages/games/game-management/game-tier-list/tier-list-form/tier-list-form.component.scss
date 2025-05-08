@@ -58,16 +58,15 @@
     position: absolute;
     inset: 0;
     opacity: 0;
-    cursor: pointer;
-    z-index: 10;
+    pointer-events: none;
   }
 
   .upload-preview-img {
     width: 100%;
     height: 100%;
-    object-fit: contain; // <- Exibe a imagem inteira sem corte
+    object-fit: contain;
     border-radius: 12px;
-    background-color: black; // ou transparente se quiser
+    background-color: black;
     z-index: 1;
   }
 

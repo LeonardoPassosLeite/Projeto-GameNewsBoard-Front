@@ -18,7 +18,7 @@
         (click)="toggleViewMode()"
         title="{{ viewOnlyMode ? 'Editar' : 'Expandir' }}"
       >
-        <fa-icon [icon]="viewOnlyMode ? faPenToSquare : faExpand" />
+        <fa-icon [icon]="viewOnlyMode ? ['fas', 'pen-to-square'] : ['fas', 'expand']" />
       </button>
     </div>
 
