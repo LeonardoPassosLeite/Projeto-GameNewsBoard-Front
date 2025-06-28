@@ -1,12 +1,14 @@
-<div class="tier-list-container">
+<div class="d-flex align-center jc-end">
   <app-navigate-button
-    [label]="'Voltar'"
-    [icon]="'fas fa-arrow-left'"
-    [className]="'btn-back'"
-    (click)="goBackToTierList()"
+    label="Voltar"
+    icon="fas fa-arrow-left"
+    className="back-btn"
+    (click)="goBack()"
   />
+</div>
 
-  <div class="carousel-container" *ngIf="!viewOnlyMode">
+<div class="add-game-tier-list-container">
+  <div *ngIf="!viewOnlyMode">
     <app-game-carousel [connectedDropLists]="dropListIds"></app-game-carousel>
   </div>
 
@@ -41,7 +43,7 @@
           [cdkDragData]="game"
         >
           <img [src]="getFullCoverUrl(game.coverImage)" [alt]="game.title" />
-          <button class="remove-button" (click)="removeGame(game)">×</button>
+          <button class="remove-button" (click)="removeGame(game)" *ngIf="!viewOnlyMode">×</button>
 
           <ng-template cdkDragPlaceholder>
             <div class="game-icon placeholder-preview">

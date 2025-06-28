@@ -5,7 +5,6 @@
 @import './auth';
 @import './scrollbar';
 @import './table';
-@import './carousel';
 
 html,
 body,
@@ -43,14 +42,18 @@ app-root {
 
 .content {
   min-height: 100vh;
-  background-color: rgb(46, 27, 65);
-  background-size: cover;
   flex: 1;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
   overflow-x: hidden;
   padding: 20px;
+
+  background: radial-gradient(circle at top left, #2a004f 0%, #3d0074 35%, #1c002e 80%);
+  background-color: #2a004f;
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .container-overflow {
@@ -64,15 +67,7 @@ app-root {
   border-radius: 12px;
 }
 
-@media (orientation: portrait) {
-  html,
-  body,
-  app-root {
-    overflow-y: auto;
-  }
-}
-
-@media (max-width: 600px) {
+@media (orientation: portrait), (max-width: 1920px), (max-width: 600px) {
   html,
   body,
   app-root {

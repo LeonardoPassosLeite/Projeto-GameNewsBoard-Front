@@ -8,12 +8,12 @@ import { GameResponse } from '../models/game.model';
 import { Status } from '../enums/status-game.enum';
 
 @Injectable({ providedIn: 'root' })
-export class StatusGameService {
-  private readonly baseUrl = `${environment.apiBaseUrl}/statusgame`;
+export class GameStatusService {
+  private readonly baseUrl = `${environment.apiBaseUrl}/GameStatus`;
 
   constructor(private http: HttpClient, private errorHandler: ErrorHandlingService) {}
 
-  setStatus(gameId: number, status: Status): Observable<void> {
+  setGameStatus(gameId: number, status: Status): Observable<void> {
     const params = new HttpParams().set('status', status.toString());
 
     return this.http.put<ApiResponse<any>>(`${this.baseUrl}/${gameId}/status`, {}, { params }).pipe(
@@ -24,7 +24,7 @@ export class StatusGameService {
     );
   }
 
-  removeStatus(gameId: number): Observable<void> {
+  removeGameStatus(gameId: number): Observable<void> {
     return this.http.delete<ApiResponse<any>>(`${this.baseUrl}/${gameId}/status`).pipe(
       map((response) => {
         if (!response.success) throw new Error('Erro ao remover status.');
@@ -33,7 +33,7 @@ export class StatusGameService {
     );
   }
 
-  getMyStatuses(): Observable<{ game: GameResponse; status: Status }[]> {
+  getMyGameStatuses(): Observable<{ game: GameResponse; status: Status }[]> {
     return this.http
       .get<ApiResponse<{ game: GameResponse; status: Status }[]>>(`${this.baseUrl}/me`)
       .pipe(

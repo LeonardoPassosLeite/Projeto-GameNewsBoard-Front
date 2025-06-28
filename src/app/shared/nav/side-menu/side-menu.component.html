@@ -1,24 +1,24 @@
 <div class="container-side-menu">
-  <!-- MENU LATERAL -->
   <div
     class="side-menu"
     [class.menu-open]="menuExpanded"
     [class.collapsed]="!menuExpanded && !isSmallScreen"
   >
-    <!-- Botão colapsar/expandir para DESKTOP -->
     <button class="menu-toggle" (click)="toggleMenu()" *ngIf="!isSmallScreen">
       <mat-icon>{{ menuExpanded ? 'chevron_left' : 'chevron_right' }}</mat-icon>
     </button>
 
-    <!-- Botão fechar estilo IGN para MOBILE -->
     <button class="menu-close-icon" (click)="toggleMenu()" *ngIf="isSmallScreen">
       <mat-icon>chevron_left</mat-icon>
     </button>
 
-    <div class="menu-header" *ngIf="menuExpanded">
-      <h2>Game Board</h2>
+    <!-- Header do menu -->
+    <div class="menu-header">
+      <h2 *ngIf="menuExpanded">Game Board</h2>
+      <h2 *ngIf="!menuExpanded && !isSmallScreen" class="collapsed-logo">GB</h2>
     </div>
 
+    <!-- Lista de menus -->
     <ul class="menu-list">
       <li
         *ngFor="let item of menuItems"
@@ -36,6 +36,7 @@
             {{ selectedMenuTitle === item.label ? 'expand_less' : 'expand_more' }}
           </mat-icon>
         </div>
+
         <ul
           class="submenu"
           *ngIf="
@@ -49,14 +50,45 @@
       </li>
     </ul>
 
+    <!-- Footer completo: visível apenas com menu expandido -->
     <div class="menu-footer" *ngIf="menuExpanded">
-      <div class="auth-buttons">
-        <button class="auth-btn">Entrar</button>
-        <button class="auth-btn">Registrar</button>
-      </div>
+      <ng-container *ngIf="authenticatedUser$ | async as user; else showAuthButtons">
+        <div
+          class="user-profile d-flex center space-between gap-10"
+          (click)="isDropdownOpen = !isDropdownOpen"
+        >
+          <mat-icon>account_circle</mat-icon>
+          <span>{{ user.username }}</span>
+          <mat-icon class="arrow-icon" [class.open]="isDropdownOpen">expand_more</mat-icon>
+        </div>
+
+        <ul class="profile-dropdown" *ngIf="isDropdownOpen && menuExpanded">
+          <li (click)="goToProfile()"><mat-icon>person</mat-icon> Ver perfil</li>
+          <li (click)="goToSettings()"><mat-icon>settings</mat-icon> Configurações</li>
+          <li (click)="openLogoutModal()"><mat-icon>logout</mat-icon> Sair</li>
+        </ul>
+      </ng-container>
+
+      <ng-template #showAuthButtons>
+        <div class="auth-buttons">
+          <button class="auth-btn" (click)="openLoginModal()">Entrar</button>
+          <button class="auth-btn" (click)="openRegisterModal()">Registrar</button>
+        </div>
+      </ng-template>
+    </div>
+
+    <!-- Ícone fixo no rodapé quando o menu estiver colapsado -->
+    <div
+      class="collapsed-profile-footer"
+      *ngIf="!menuExpanded && !isSmallScreen"
+      (click)="menuExpanded = true"
+      title="Abrir perfil"
+    >
+      <mat-icon>account_circle</mat-icon>
     </div>
   </div>
 
+  <!-- Overlay em mobile -->
   <div class="menu-overlay" *ngIf="menuExpanded && isSmallScreen" (click)="toggleMenu()"></div>
 
   <app-header
@@ -73,3 +105,20 @@
     <router-outlet></router-outlet>
   </div>
 </div>
+
+<!-- Modais -->
+<app-login-modal
+  *ngIf="modalView === 'login'"
+  (switchToRegister)="modalView = 'register'"
+  (loginSuccess)="handleLoginSuccess()"
+  (close)="closeModal()"
+/>
+
+<app-register-modal
+  *ngIf="modalView === 'register'"
+  (switchToLogin)="modalView = 'login'"
+  (registerSuccess)="handleRegisterSuccess()"
+  (close)="closeModal()"
+/>
+
+<app-logout-modal *ngIf="showLogoutModal" (confirm)="logout()" (cancel)="showLogoutModal = false" />

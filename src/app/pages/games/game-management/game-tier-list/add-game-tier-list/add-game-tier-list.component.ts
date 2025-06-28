@@ -22,7 +22,7 @@ import { NavigateButtonComponent } from '../../../../../shared/forms/navigate-bu
     DragDropModule,
     MatTableModule,
     FontAwesomeModule,
-    NavigateButtonComponent
+    NavigateButtonComponent,
   ],
   templateUrl: './add-game-tier-list.component.html',
   styleUrls: ['./add-game-tier-list.component.scss'],
@@ -59,21 +59,21 @@ export class AddGameTierListComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateViewMode();
-  
+
     window.addEventListener('resize', this.updateViewMode.bind(this));
-  
+
     this.route.paramMap.subscribe((params) => {
       this.tierId = params.get('tierId');
       this.prepareDropListIds();
       this.initializeTierGames();
-  
+
       if (this.tierId) {
         this.loadTierListGames(this.tierId);
       }
     });
   }
   private updateViewMode(): void {
-    this.isMobileView = window.innerWidth <= 768; 
+    this.isMobileView = window.innerWidth <= 768;
   }
 
   private loadTierListGames(tierId: string): void {
@@ -199,7 +199,7 @@ export class AddGameTierListComponent implements OnInit {
     this.viewOnlyMode = !this.viewOnlyMode;
   }
 
-  goBackToTierList(): void {
-    this.router.navigate(['/nav-bar/tier-list']);
+  goBack(): void {
+    this.router.navigate(['/manage-games']);
   }
 }

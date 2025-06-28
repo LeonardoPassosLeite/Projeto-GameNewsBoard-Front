@@ -4,24 +4,11 @@ import { GameNewsComponent } from '../pages/game-news/game-news.component';
 import { AllGamesListComponent } from '../pages/games/all-games-list/all-games-list.component';
 import { GameManagementComponent } from '../pages/games/game-management/game-management.component';
 import { AuthGuard } from './auth/guards/auth.guard';
-import { GuestGuard } from './auth/guards/guest.guard';
-import { LoginComponent } from './auth/login/login.component';
-import { UserRegisterComponent } from './auth/login/user-register/user-register.component';
-import { NavBarComponent } from '../shared/nav/nav-bar/nav-bar.component';
 import { AddGameTierListComponent } from '../pages/games/game-management/game-tier-list/add-game-tier-list/add-game-tier-list.component';
 import { TierListFormComponent } from '../pages/games/game-management/game-tier-list/tier-list-form/tier-list-form.component';
+import { GameReleasesComponent } from '../pages/game-releases/game-releases.component';
 
 export const routes: Routes = [
-  {
-    path: 'login',
-    component: LoginComponent,
-    canActivate: [GuestGuard],
-  },
-  {
-    path: 'register',
-    component: UserRegisterComponent,
-    canActivate: [GuestGuard],
-  },
   {
     path: '',
     component: SideMenuComponent,
@@ -40,14 +27,19 @@ export const routes: Routes = [
         component: AllGamesListComponent,
       },
       {
-        path: 'nav-bar',
-        component: NavBarComponent,
+        path: 'game-releases',
+        component: GameReleasesComponent,
+      },
+
+      {
+        path: 'manage-games',
+        component: GameManagementComponent,
         canActivate: [AuthGuard],
         children: [
           {
             path: '',
-            pathMatch: 'full',
             redirectTo: 'tier-list',
+            pathMatch: 'full',
           },
           {
             path: 'tier-list',
@@ -65,6 +57,8 @@ export const routes: Routes = [
           },
         ],
       },
+
+      // ✅ Formulários independentes (criação/edição de tier)
       {
         path: 'manage-games/tier-list/create-tier-list',
         component: TierListFormComponent,
@@ -79,18 +73,6 @@ export const routes: Routes = [
         path: 'manage-games/tier-list/add-game-tier-list/:tierId',
         component: AddGameTierListComponent,
         canActivate: [AuthGuard],
-      },
-      {
-        path: 'manage-games',
-        component: GameManagementComponent,
-        canActivate: [AuthGuard],
-        children: [
-          {
-            path: '',
-            redirectTo: '/nav-bar/tier-list',
-            pathMatch: 'full',
-          },
-        ],
       },
     ],
   },

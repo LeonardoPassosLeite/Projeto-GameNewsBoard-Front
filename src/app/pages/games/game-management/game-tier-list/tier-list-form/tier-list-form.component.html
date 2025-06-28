@@ -1,11 +1,19 @@
-<app-navigate-button
-  [label]="'Voltar'"
-  [icon]="'fas fa-arrow-left'"
-  [className]="'btn-back'"
-  (click)="goBackToTierList()"
-/>
+<div class="d-flex align-center jc-end">
+  <app-navigate-button
+    label="Voltar"
+    icon="fas fa-arrow-left"
+    className="back-btn"
+    (click)="goBack()"
+  />
+</div>
 
 <div class="form-wrapper">
+  <div class="tier-header">
+    <fa-icon [icon]="['fas', 'layer-group']" class="tier-icon" />
+    <h2 class="tier-main-title">Criação da Tier List</h2>
+    <p class="tier-subtitle">Defina um nome e selecione uma imagem que represente sua nova Tier.</p>
+  </div>
+
   <form [formGroup]="form" (ngSubmit)="submit()" class="create-tier-form">
     <div class="form-group">
       <app-input

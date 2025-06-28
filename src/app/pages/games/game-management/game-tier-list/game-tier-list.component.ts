@@ -11,7 +11,6 @@ import { RemoveButtonComponent } from '../../../../shared/forms/remove-button/re
 import { ConfirmDialogComponent } from '../../../../shared/modais/confirm-dialog/confirm-dialog.component';
 import { NotificationService } from '../../../../shared/services/commons/notification.service';
 import { GamerLoadingComponent } from '../../../../shared/components/gamer-loading/gamer-loading.component';
-import { ApiErrorResponse } from '../../../../shared/models/commons/api-error-response.model';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({

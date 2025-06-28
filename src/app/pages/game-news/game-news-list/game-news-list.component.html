@@ -1,5 +1,5 @@
-<div class="news-item mb-20" *ngFor="let item of news.slice(1)">
-  <div class="d-flex gap-20">
+<div class="container-news mb-20" *ngFor="let item of news.slice(1)">
+  <div class="news-items d-flex gap-20">
     <img
       *ngIf="item.imageUrl"
       [src]="item.imageUrl"

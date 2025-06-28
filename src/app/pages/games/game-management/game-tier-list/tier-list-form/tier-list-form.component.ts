@@ -168,7 +168,7 @@ export class TierListFormComponent implements OnInit {
     return '/nav-bar/tier-list';
   }
 
-  goBackToTierList(): void {
+  goBack(): void {
     this.router.navigate(['/manage-games']);
   }
 }

@@ -1,42 +1,40 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { environment } from '../../../environments/environments';
 import { ErrorHandlingService } from './commons/error-handling.service';
 import { ApiResponse } from '../models/commons/api-response.model';
 import { UserProfileResponse } from '../models/user-profile.model';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class UserService {
-  private readonly baseUrl = `${environment.apiBaseUrl}/user`;
+  private userSubject = new BehaviorSubject<UserProfileResponse | null>(null);
+  authenticatedUser$ = this.userSubject.asObservable();
 
-  constructor(private http: HttpClient, private errorHandler: ErrorHandlingService) {}
+  private loginModalSubject = new Subject<void>();
+  loginModal$ = this.loginModalSubject.asObservable();
+
+  constructor(private http: HttpClient) {}
+
+  triggerLoginModal() {
+    this.loginModalSubject.next();
+  }
+
+  refreshUser() {
+    this.getAuthenticatedUserSafe().subscribe((user) => this.userSubject.next(user));
+  }
+
+  clearUser() {
+    this.userSubject.next(null);
+  }
 
   getAuthenticatedUserSafe(): Observable<UserProfileResponse | null> {
     return this.http
-      .get<ApiResponse<UserProfileResponse>>(`${this.baseUrl}/me`, {
-        withCredentials: true,
-      })
+      .get<ApiResponse<UserProfileResponse>>('/api/user/me', { withCredentials: true })
       .pipe(
-        map((response) => {
-          return response.data;
-        }),
-        catchError((err) => {
-          return of(null);
-        })
+        map((res) => res.data),
+        catchError(() => of(null))  
       );
   }
-
-  // getUserProfile(): Observable<UserProfileResponse> {
-  //   return this.http.get<ApiResponse<UserProfileResponse>>(`${this.baseUrl}/profile`).pipe(
-  //     map(response => response.data),
-  //     catchError(err => {
-  //       const errorMsg = this.errorHandler.handleHttpError(err);
-  //       throw new Error(errorMsg);
-  //     })
-  //   );
-  // }
 }

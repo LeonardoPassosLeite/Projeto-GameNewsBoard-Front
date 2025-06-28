@@ -4,7 +4,7 @@ import { GameCarouselComponent } from '../../../../shared/components/game-carous
 import { GameResponse } from '../../../../shared/models/game.model';
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
 import { Status, StatusLabels } from '../../../../shared/enums/status-game.enum';
-import { StatusGameService } from '../../../../shared/services/status.service';
+import { GameStatusService } from '../../../../shared/services/game-status.service';
 import { ErrorHandlingService } from '../../../../shared/services/commons/error-handling.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -32,7 +32,7 @@ export class GameStatusListComponent implements OnInit {
   statusGames: { [key in Status]: GameResponse[] } = {} as any;
 
   constructor(
-    private statusGameService: StatusGameService,
+    private gameStatsuService: GameStatusService,
     private toastr: ToastrService,
     private errorHandler: ErrorHandlingService
   ) {}
@@ -41,7 +41,7 @@ export class GameStatusListComponent implements OnInit {
     this.dropListIds = ['carousel-drop-list', ...this.statusList.map((s) => `status-drop-${s}`)];
     this.statusList.forEach((status) => (this.statusGames[status] = []));
 
-    this.statusGameService.getMyStatuses().subscribe({
+    this.gameStatsuService.getMyGameStatuses().subscribe({
       next: (statuses) => {
         for (const { game, status } of statuses) {
           if (!this.statusGames[status]) {
@@ -71,7 +71,7 @@ export class GameStatusListComponent implements OnInit {
 
     this.statusGames[newStatus].push(game);
 
-    this.statusGameService.setStatus(game.id, newStatus).subscribe({
+    this.gameStatsuService.setGameStatus(game.id, newStatus).subscribe({
       next: () => console.log(`[API] Status atualizado para ${newStatus} com sucesso.`),
       error: (err) => console.error('[API] Erro ao atualizar status:', err),
     });
@@ -81,7 +81,7 @@ export class GameStatusListComponent implements OnInit {
     const status = this.getGameCurrentStatus(game.id);
     if (status === undefined) return;
 
-    this.statusGameService.removeStatus(game.id).subscribe({
+    this.gameStatsuService.removeGameStatus(game.id).subscribe({
       next: () => {
         this.statusGames[status] = this.statusGames[status].filter((g) => g.id !== game.id);
       },
